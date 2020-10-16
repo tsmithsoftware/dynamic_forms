@@ -93,4 +93,16 @@ void main() {
       },
     );
   });
+
+  group('toJson', (){
+    segmentOne.checksList = [checkOne];
+    segmentTwo.checksList = [checkTwo, checkThree];
+    test('should return a JSON map containing the proper data', () async {
+      // act
+      final result = tChecksPageModel.toJson();
+      // assert
+      final expectedJsonMap = json.decode(fixture('checks_page.json'));
+      expect(result, expectedJsonMap);
+    });
+  });
 }

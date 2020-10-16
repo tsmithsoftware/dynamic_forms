@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'file:///C:/Users/Admin/Documents/non_git_dev/git_dev_dynamic_form/dynamic_forms/lib/features/dynamic_form_load/domain/entities/check_entity.dart';
-import 'file:///C:/Users/Admin/Documents/non_git_dev/git_dev_dynamic_form/dynamic_forms/lib/features/dynamic_form_load/domain/entities/checks_page_entity.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/domain/entities/check_entity.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/domain/entities/checks_page_entity.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/entities/segment_entity.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/repositories/checks_page_repository.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/usecases/get_checks_page.dart';
