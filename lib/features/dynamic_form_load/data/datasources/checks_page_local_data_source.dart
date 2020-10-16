@@ -19,8 +19,7 @@ class ChecksPageLocalDataSourceImpl implements ChecksPageLocalDataSource {
 
   @override
   Future<void> cacheChecksPageModel(ChecksPageModel modelToCache) {
-    // TODO: implement cacheChecksPageModel
-    throw UnimplementedError();
+   return sharedPreferences.setString(CACHED_CHECKS_PAGE, json.encode(modelToCache.toJson()));
   }
 
   @override
