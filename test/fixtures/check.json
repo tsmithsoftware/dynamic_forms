@@ -1,0 +1,8 @@
+{
+  "checkId":1,
+  "text":"Are you going to work on any live electrical, stored energy/pressure system, or the electrical switchboard?",
+  "subText": "",
+  "type":"yesNo",
+  "checkRequired": false,
+  "imageLink":""
+}
