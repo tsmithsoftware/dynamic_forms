@@ -17,7 +17,7 @@ class ChecksPageRemoteDataSourceImpl implements ChecksPageRemoteDataSource {
   @override
   Future<ChecksPageModel> getChecksPage(int countryNumber) async {
     final response = await client.get(
-        'http://localhost:8080/checks/$countryNumber',
+        'http://192.168.0.5:8080/checks/$countryNumber',
       headers: { HttpHeaders.contentTypeHeader: ContentType.json.toString() }
     );
 

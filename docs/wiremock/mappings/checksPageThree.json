@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "GET",
-    "url": "/checks/1"
+    "url": "/checks/3"
   },
   "response": {
     "headers": {
@@ -9,7 +9,7 @@
     },
     "status": 200,
     "jsonBody": {
-      "alLChecks":[
+      "allChecks":[
         {
           "checkId":1,
           "text":"Are you going to work on any live electrical, stored energy/pressure system, or the electrical switchboard?",
@@ -50,7 +50,11 @@
         },
         {
           "title": "All Work Activities",
-          "checks": [2,3]
+          "checks": [2,3, 4]
+        },
+        {
+          "title": "Some Other Work Activities",
+          "checks": [2,3,4]
         }
       ]
     }
