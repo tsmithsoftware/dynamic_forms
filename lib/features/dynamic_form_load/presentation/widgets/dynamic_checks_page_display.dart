@@ -13,16 +13,21 @@ class DynamicChecksPageDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<ListItem> segments = buildList(checksPageModel);
-    return Container(
-      height: MediaQuery.of(context).size.height / 2,
-      child: ListView.builder(
-          itemCount: segments.length,
-          itemBuilder: (context, index) {
-            final item = segments[index];
-            return ListTile(title: item.buildSegment(context));
-          }),
-    );
+    if (
+    (checksPageModel.storedSegments.length > 0) &&
+        (checksPageModel.storedChecks.length > 0) ){
+      List<ListItem> segments = buildList(checksPageModel);
+      return Container(
+        height: MediaQuery.of(context).size.height / 2,
+        child: ListView.builder(
+            itemCount: segments.length,
+            itemBuilder: (context, index) {
+              final item = segments[index];
+              return ListTile(title: item.buildSegment(context));
+            }),
+      );
+    }
+    return Container();
   }
 
   List<ListItem> buildList(ChecksPageModel checksPageModel) {
