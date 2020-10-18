@@ -24,6 +24,8 @@ dependencies:
   shared_preferences: ^0.5.3+4
   # overriding hashcode for custom object equality checks
   quiver: ^2.0.5
+  # show images from the internet & store them in cache (temp directory)
+  cached_network_image: ^2.2.0+1
 
 dev_dependencies:
   flutter_test:

@@ -21,7 +21,7 @@
         {
           "checkId":2,
           "text":"Are you going to be working on the pineapple",
-          "subText": "<b>If yes,</b> how will you ensure there is enough for everyone?",
+          "subText": "If yes, how will you ensure there is enough for everyone?",
           "type":"yesNo",
           "required":false,
           "imageLink":""
@@ -29,7 +29,7 @@
         {
           "checkId":3,
           "text":"Can you do the hokey pokey>",
-          "subText": "<b>If yes,</b> consider alternatives. This includes samba and ballroom dancing. ",
+          "subText": "If yes, consider alternatives. This includes samba and ballroom dancing. ",
           "type":"yesNo",
           "required":false,
           "imageLink":""
@@ -37,7 +37,7 @@
         {
           "checkId":4,
           "text":"Is the contractor appropriately dressed, as per the image below?",
-          "subText": "<b>If yes,</b> consider alternatives. This includes tuxedos, suits, and clown outfits.",
+          "subText": "If yes, consider alternatives. This includes tuxedos, suits, and clown outfits.",
           "type":"yesNo",
           "required":false,
           "imageLink":"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fae01.alicdn.com%2Fkf%2FHTB1QM7zQXXXXXXFaFXXq6xXFXXXn%2FMotorcycle-protective-gear-ski-protection-back-Armor-protection-spine-extreme-sports-protective-gear.jpg&f=1&nofb=1"

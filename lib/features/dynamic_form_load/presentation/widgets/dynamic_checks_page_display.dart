@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/checks_page_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/segment_model.dart';
@@ -14,7 +15,7 @@ class DynamicChecksPageDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     List<ListItem> segments = buildList(checksPageModel);
     return Container(
-      height: MediaQuery.of(context).size.height / 3,
+      height: MediaQuery.of(context).size.height / 2,
       child: ListView.builder(
           itemCount: segments.length,
           itemBuilder: (context, index) {
@@ -55,11 +56,11 @@ class Segment implements ListItem {
             children: [
               Row(
                 children: [
-                  Text(this.title)
+                  Text(this.title, style: TextStyle(fontSize: 25),)
                 ],
               ),
               SizedBox(
-                height: ( (MediaQuery.of(context).size.height) / 3) / 3,
+                height: ( ((MediaQuery.of(context).size.height) / 5) * (checks.length - 1) ),
                   width: MediaQuery.of(context).size.width,
                 child: CheckModelDisplay(checks: this.checks),
               )
@@ -71,10 +72,21 @@ class Segment implements ListItem {
   }
 }
 
-class CheckModelDisplay extends StatelessWidget {
+class CheckModelDisplay extends StatefulWidget {
   List<CheckModel> checks;
 
   CheckModelDisplay({@required this.checks});
+
+  @override
+  _CheckModelDisplayState createState() => new _CheckModelDisplayState(checks: this.checks);
+
+}
+
+class _CheckModelDisplayState extends State<CheckModelDisplay> {
+  List<CheckModel> checks;
+  bool isSelected = false;
+
+  _CheckModelDisplayState({@required List<CheckModel> checks});
 
   @override
   Widget build(BuildContext context) {
@@ -82,20 +94,37 @@ class CheckModelDisplay extends StatelessWidget {
         itemCount: this.checks.length,
         itemBuilder: (contents, index) {
           final item = checks[index];
-          return SizedBox(height: 50,child: ListTile(title: buildCheckItemWidget(item)));
+          return SizedBox(height: 90,child: ListTile(title: buildCheckItemWidget(item)));
         });
   }
 
   Widget buildCheckItemWidget(CheckModel item) {
+    Widget avatar;
+    if (item.imageLink != null) {
+      avatar = CircleAvatar(
+        backgroundImage: CachedNetworkImageProvider(item.imageLink),
+        backgroundColor: Colors.white,
+      );
+    }
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(item.text),
-            Text(item.subText)
+            Text(item.text, style: TextStyle(fontSize: 20),),
+            Text(item.subText, style: TextStyle(fontSize: 15),),
+            avatar == null ? Container() : avatar
           ],
         ),
-        Checkbox(onChanged: (bool value) {  }, value: true,)
+        Expanded(child: Spacer(),),
+        Checkbox(
+          value: isSelected ?? false,
+          onChanged: (bool value) {
+          setState(() {
+            isSelected = value;
+          });
+        })
       ],
     );
   }

@@ -21,7 +21,7 @@
         {
           "checkId":2,
           "text":"Are you going to work on any live electrical, stored energy/pressure system, or the electrical switchboard?",
-          "subText": "<b>If yes,</b> how will you isolation and lock-out the system to make it safe to work on. What extra precautions will you take?",
+          "subText": "If yes, how will you isolation and lock-out the system to make it safe to work on. What extra precautions will you take?",
           "type":"yesNo",
           "required":false,
           "imageLink":""
@@ -29,7 +29,7 @@
         {
           "checkId":3,
           "text":"Could your work on site obstruct any access or egress in an emergency?",
-          "subText": "<b>If yes,</b> consider alternatives. This includes extinguishers, evacuation routes, assembly area, spill kit. ",
+          "subText": "If yes, consider alternatives. This includes extinguishers, evacuation routes, assembly area, spill kit. ",
           "type":"yesNo",
           "required":false,
           "imageLink":""
@@ -37,7 +37,7 @@
         {
           "checkId":4,
           "text":"Is the contractor appropriately dressed, as per the image below?",
-          "subText": "<b>If yes,</b> consider alternatives. This includes extinguishers, evacuation routes, assembly area, spill kit. ",
+          "subText": "If yes, consider alternatives. This includes extinguishers, evacuation routes, assembly area, spill kit. ",
           "type":"yesNo",
           "required":false,
           "imageLink":"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fae01.alicdn.com%2Fkf%2FHTB1QM7zQXXXXXXFaFXXq6xXFXXXn%2FMotorcycle-protective-gear-ski-protection-back-Armor-protection-spine-extreme-sports-protective-gear.jpg&f=1&nofb=1"
