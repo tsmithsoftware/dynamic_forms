@@ -1,0 +1,1 @@
+Initialisation scripts can be found at docs/docker/db/init.sql. This is to reduce duplication.
