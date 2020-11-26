@@ -32,10 +32,25 @@ class DynamicChecksPageDisplay extends StatelessWidget {
 
   List<ListItem> buildList(ChecksPageModel checksPageModel) {
     List<Segment> listedSegments = [];
+    SegmentModel firstSModel = checksPageModel.storedSegments.first;
+    if (firstSModel != null) {
+      listedSegments.add(Segment(title: firstSModel.title, checks: firstSModel.checksList));
+    }
+    // check if below error is caused by below code be replacing with single segment:
+    /*
+    Incorrect use of ParentDataWidget.
+
+The following ParentDataWidgets are providing parent data to the same RenderObject:
+- Expanded(flex: 1) (typically placed directly inside a Flex widget)
+- Expanded(flex: 1) (typically placed directly inside a Flex widget)
+However, a RenderObject can only receive parent data from at most one ParentDataWidget.
+     */
+    /**
     for (SegmentModel segment in checksPageModel.storedSegments) {
       listedSegments
           .add(Segment(title: segment.title, checks: segment.checksList));
     }
+        **/
     return listedSegments;
   }
 }
@@ -48,7 +63,7 @@ abstract class ListItem {
 /// A ListItem that contains data to display a heading.
 class Segment implements ListItem {
   String title;
-  List<CheckModel> checks;
+  List<CheckModel> checks = List();
 
   Segment({@required this.title, @required this.checks});
 
@@ -78,7 +93,7 @@ class Segment implements ListItem {
 }
 
 class CheckModelDisplay extends StatefulWidget {
-  List<CheckModel> checks;
+  List<CheckModel> checks = List();
 
   CheckModelDisplay({@required this.checks});
 
@@ -88,10 +103,10 @@ class CheckModelDisplay extends StatefulWidget {
 }
 
 class _CheckModelDisplayState extends State<CheckModelDisplay> {
-  List<CheckModel> checks;
+  List<CheckModel> checks = List();
   bool isSelected = false;
 
-  _CheckModelDisplayState({@required List<CheckModel> checks});
+  _CheckModelDisplayState({@required this.checks});
 
   @override
   Widget build(BuildContext context) {

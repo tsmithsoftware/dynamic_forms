@@ -6,14 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/presentation/widgets/widgets.dart';
 
 class DynamicChecksPage extends StatelessWidget {
-  final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Dynamic Checks'),
       ),
-      body: Scrollbar(controller: _scrollController,isAlwaysShown: true,child: SingleChildScrollView(child: buildBody(context))),
+      body: SingleChildScrollView(child: buildBody(context))
     );
   }
 
