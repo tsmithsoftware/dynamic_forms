@@ -32,25 +32,10 @@ class DynamicChecksPageDisplay extends StatelessWidget {
 
   List<ListItem> buildList(ChecksPageModel checksPageModel) {
     List<Segment> listedSegments = [];
-    SegmentModel firstSModel = checksPageModel.storedSegments.first;
-    if (firstSModel != null) {
-      listedSegments.add(Segment(title: firstSModel.title, checks: firstSModel.checksList));
-    }
-    // check if below error is caused by below code be replacing with single segment:
-    /*
-    Incorrect use of ParentDataWidget.
-
-The following ParentDataWidgets are providing parent data to the same RenderObject:
-- Expanded(flex: 1) (typically placed directly inside a Flex widget)
-- Expanded(flex: 1) (typically placed directly inside a Flex widget)
-However, a RenderObject can only receive parent data from at most one ParentDataWidget.
-     */
-    /**
     for (SegmentModel segment in checksPageModel.storedSegments) {
       listedSegments
           .add(Segment(title: segment.title, checks: segment.checksList));
     }
-        **/
     return listedSegments;
   }
 }
@@ -69,6 +54,12 @@ class Segment implements ListItem {
 
   @override
   Widget buildSegment(BuildContext context) {
+    double sizedBoxHeight = 0;
+    if (checks.length == 1) {
+      sizedBoxHeight = ( ((MediaQuery.of(context).size.height) / 5) * (checks.length) );
+    } else {
+      sizedBoxHeight = ( ((MediaQuery.of(context).size.height) / 5) * (checks.length - 1) );
+    }
     return Column(
       children: [
         Card(
@@ -80,7 +71,7 @@ class Segment implements ListItem {
                 ],
               ),
               SizedBox(
-                height: ( ((MediaQuery.of(context).size.height) / 5) * (checks.length - 1) ),
+                height: sizedBoxHeight,
                   width: MediaQuery.of(context).size.width,
                 child: CheckModelDisplay(checks: this.checks),
               )
@@ -120,7 +111,7 @@ class _CheckModelDisplayState extends State<CheckModelDisplay> {
 
   Widget buildCheckItemWidget(CheckModel item) {
     Widget avatar;
-    if (item.imageLink != null) {
+    if (item.imageLink != null && Uri.parse(item.imageLink).isAbsolute) {
       avatar = CircleAvatar(
         backgroundImage: CachedNetworkImageProvider(item.imageLink),
         backgroundColor: Colors.white,
@@ -137,7 +128,7 @@ class _CheckModelDisplayState extends State<CheckModelDisplay> {
             avatar == null ? Container() : avatar
           ],
         ),
-        Expanded(child: Spacer(),),
+        Spacer(),
         Checkbox(
           value: isSelected ?? false,
           onChanged: (bool value) {
