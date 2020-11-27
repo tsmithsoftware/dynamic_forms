@@ -24,14 +24,15 @@ client.connect(err => {
 
 function QueryResult(row) { 
 var queryResult = {
+	checksId: row.checksid,
+	checksText: row.checkstext,
+	checksSubText: row.checkssubtext,
+	checksType: row.checkstype,
+	checksRequired: row.checksrequired,
+	imageLink: row.imagelink,
 	segmentId: row.segmentid,
 	segmentTitle: row.segmenttitle,
-	checksId: row.checksid,
-	text: row.checkstext,
-	subText: row.checkssubtext,
-	type: row.checkstype,
-	required: row.checksrequired,
-	imageLink: row.imageLink
+	countryId: row.countryid
 };
 return queryResult;
 }
@@ -41,79 +42,98 @@ const PORT = 4000;
 const HOST = '0.0.0.0';
 const selectQuery = `
 select 
-	s.segmentid, 
-	s.segmenttitle, 
-	checks.checksid, 
-	checks.checkstext,
-	checks.checkssubtext,
-	checks.checkstype,
-	checks.checksrequired,
-	checks.imagelink  
-from 
-	(segments s 
-	 join segmentchecks sc 
-	 on 
-	 	(s.segmentid = sc.segmentid)
-	) join checks 
-	on sc.checksid = checks.checksid;
+checks.*, segments.segmenttitle, countries.countryid
+from segments 
+	inner join inductioncheckspage induct
+		on segments.checkspageid = induct.checkspageid
+	inner join countries on induct.countryid = countries.countryid
+inner join checks on segments.segmentid = checks.segmentid
+`;
+const whereCountry = `
+where countries.countryId = 
 `;
 
 // App
 const app = express();
 app.use(express.json()) // for parsing application/json
 
-app.get('/checks/:checkId', (req,res) => {
-	res.status(200).send("Response! CheckID:" + req.params["checkId"]);
-});
-
-
-app.get('/checks', (req, res) => {
-	let resultObject = {};
-				
-	client.query(selectQuery + ";",
-		function (err, result) {
+// get checks for a particular country - checks pages are stored per country, in form
+// checks?countryId = x
+// checks?storeId = y
+app.get('/checks', (req,res) => {
+	//res.status(200).send("Response! Country ID: " + req.query.countryId);
+	let countryId = req.query.countryId;
+	let storeId = req.query.storeId;
+	let query = "";
+	if (countryId != null){
+		query = selectQuery + whereCountry + req.query.countryId + ";";
+	} else if (storeId != null){
+		
+	} else {
+		query = selectQuery + ";";
+	}
+	client.query(query, 
+		function(err, result){
 			if (err) {
 				console.log (err);
 				res.status(400).send(err);
-				} else {
-					let resultObject = {};
-					let returnedSegments = result.rows;
-					let queryResultArray = [];
-					for (var i = 0; i < returnedSegments.length; i++) {
-						var ojb = returnedSegments[i];
-						queryResultArray.push(QueryResult(ojb));
-					}
-					// get segments
-					var groupBySegment = groupBy(queryResultArray, 'segmentId');
-					var keys = Object.keys(groupBySegment);
-					// get checks
-					var groupByCheck = groupBy(queryResultArray, 'checksId')
-					// order
-					resultObject["allChecks"] = extractChecks(groupByCheck);
-					
-					var segmentValues = [];
-					var pos;
-					for (pos = 0; pos < keys.length; pos++) {
-						var keyValue = keys[pos];
-						var re = where(queryResultArray, {"segmentId": parseInt(keyValue)});
-						segmentValues.push(re);
-					}
-					var segmentOne = where(queryResultArray, {"segmentId":1})
-					res.status(200).send(segmentValues); 
+			} else {
+				let returnedSegments = result.rows;
+				let queryResultArray = [];
+				// map into objects
+				for (var position = 0; position < returnedSegments.length; position ++) {
+					var segment = returnedSegments[position];
+					queryResultArray.push(QueryResult(segment));
 				}
-		} 
-	);
+				// get segments
+				var groupBySegment = groupBy(queryResultArray, 'segmentId');
+				var keys = Object.keys(groupBySegment);
+				// get checks
+				var groupByCheck = groupBy(queryResultArray, 'checksId');
+				var groupBySegmentTitle = groupBy(queryResultArray, 'segmentTitle');
+				// order and push into result object
+				let resultObject = {};
+				// all checks
+				resultObject["allChecks"] = extractChecks(queryResultArray);
+				// segments
+				var segmentValues = [];
+				var pos;
+				//console.log("\n ordering by segments");
+				//console.log("\n queryResultArray groupby segmenttitle:" + JSON.stringify(groupBySegmentTitle));
+				var result = SegmentResultModel(groupBySegmentTitle);
+				resultObject["segments"] = result;
+					res.status(200).send(resultObject); 
+			}
+		});
+});
 
+function SegmentResultModel(row) {
+	var segments = [];
+	var keys = Object.keys(row); // General Checks / Specific Checks
+	for (var pos = 0; pos < keys.length; pos++) {
+		// get check ids
+		var checkIds = [];
+		let groupById = groupBy(row[keys[pos]], 'checksId');
+		Object.keys(groupById).forEach(function(element){
+			checkIds.push(Number(element));
+		});
+
+		// push to segments array
+		segments.push( {
+			"title": keys[pos],
+			"checks": checkIds
+		} );
+	}
+	return segments;
 }
-);
 
-function theCheckObject(row) { 
+function CheckResultModel(row) { 
 var queryResult = {
-	checksId: row.checksid,
-	text: row.checkstext,
-	subText: row.checkssubtext,
-	type: row.checkstype,
-	required: row.checksrequired,
+	checkId: row.checksId,
+	text: row.checksText,
+	subText: row.checksSubText,
+	type: row.checksType,
+	required: row.checksRequired,
 	imageLink: row.imageLink
 };
 return queryResult;
@@ -126,22 +146,9 @@ function extractChecks(group) {
 	for (pos = 0; pos < keys.length; pos++) {
 		var keyValue = keys[pos];
 		var checkObject = group[keyValue];
-		console.log("checkObject :" + JSON.stringify(checkObject));
-		checks.push(theCheckObject(checkObject));
+		checks.push(CheckResultModel(checkObject));
 	}
 	return checks;
-}
-
-function replacer(key, value) {
-  const originalObject = this[key];
-  if(originalObject instanceof Map) {
-    return {
-      dataType: 'Map',
-      value: Array.from(originalObject.entries()), // or with spread: value: [...originalObject]
-    };
-  } else {
-    return value;
-  }
 }
 
 app.listen(PORT, HOST);

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_type.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/entities/check_entity.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/entities/checks_page_entity.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/entities/segment_entity.dart';
@@ -24,7 +25,7 @@ void main() {
     imageLink: "",
     text: "Title!",
     subText: "SubTitle!",
-    type: "bool"
+    type: CheckType.YES_NO
   );
 
   final tSegmentEntity = SegmentEntity(

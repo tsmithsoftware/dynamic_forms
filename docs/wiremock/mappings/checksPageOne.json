@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "GET",
-    "url": "/checks/1"
+    "url": "/checks?countryId=1"
   },
   "response": {
     "headers": {

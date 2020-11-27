@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_model.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_type.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/entities/check_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -11,7 +12,7 @@ void main() {
     checkId: 1,
     text: "Are you going to work on any live electrical, stored energy/pressure system, or the electrical switchboard?",
     subText: "",
-    type: "yesNo",
+    type: CheckType.YES_NO,
     checkRequired: false,
     imageLink: ""
   );

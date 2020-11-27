@@ -1,14 +1,18 @@
 import 'dart:convert';
 
+import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_type.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/entities/check_entity.dart';
 import 'package:flutter/cupertino.dart';
 
 class CheckModel extends CheckEntity {
+
+  bool isSelected = false;
+
   CheckModel(
       {@required int checkId,
       @required String text,
       @required String subText,
-      @required String type,
+      @required CheckType type,
       @required bool checkRequired,
       @required String imageLink})
       : super(
@@ -24,7 +28,7 @@ class CheckModel extends CheckEntity {
         checkId: jsonMap['checkId'],
         text: jsonMap['text'],
         subText: jsonMap['subText'],
-        type: jsonMap['type'],
+        type: CheckTypeFactory.getTypeFrom(jsonMap['type']),
         checkRequired: jsonMap['checkRequired'],
         imageLink: jsonMap['imageLink']);
   }
@@ -34,7 +38,7 @@ class CheckModel extends CheckEntity {
       "checkId": checkId,
       "text": text,
       "subText": subText,
-      "type": type,
+      "type": CheckTypeFactory.getStringFrom(type),
       "checkRequired": checkRequired,
       "imageLink": imageLink
     };

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_model.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_type.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/checks_page_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/segment_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -95,7 +96,6 @@ class CheckModelDisplay extends StatefulWidget {
 
 class _CheckModelDisplayState extends State<CheckModelDisplay> {
   List<CheckModel> checks = List();
-  bool isSelected = false;
 
   _CheckModelDisplayState({@required this.checks});
 
@@ -117,26 +117,30 @@ class _CheckModelDisplayState extends State<CheckModelDisplay> {
         backgroundColor: Colors.white,
       );
     }
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(item.text, style: TextStyle(fontSize: 20),),
-            Text(item.subText, style: TextStyle(fontSize: 15),),
-            avatar == null ? Container() : avatar
-          ],
-        ),
-        Spacer(),
-        Checkbox(
-          value: isSelected ?? false,
-          onChanged: (bool value) {
-          setState(() {
-            isSelected = value;
-          });
-        })
-      ],
-    );
+    if (item.type == CheckType.YES_NO) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(item.text, style: TextStyle(fontSize: 20),),
+              Text(item.subText, style: TextStyle(fontSize: 15),),
+              avatar == null ? Container() : avatar
+            ],
+          ),
+          Spacer(),
+          Checkbox(
+              value: item.isSelected ?? false,
+              onChanged: (bool value) {
+                setState(() {
+                  item.isSelected = value;
+                });
+              })
+        ],
+      );
+    } else {
+     return Container();
+    }
   }
 }

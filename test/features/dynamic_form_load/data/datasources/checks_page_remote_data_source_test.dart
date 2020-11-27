@@ -49,7 +49,7 @@ void main() {
         dataSource.getChecksPage(tNumber);
         // assert
         verify(mockHttpClient.get(
-          'http://192.168.0.5:8080/checks/$tNumber',
+          'http://192.168.0.13:4000/checks?countryId=$tNumber',
           headers: { HttpHeaders.contentTypeHeader: ContentType.json.toString() },
         ));
       },

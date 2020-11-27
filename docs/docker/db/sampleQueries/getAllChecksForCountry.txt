@@ -1,0 +1,30 @@
+select
+countries.countryname, checks.checkstext, checks.checkstext, checks.checkssubtext, segments.segmenttitle
+from segments
+	inner join inductioncheckspage induct
+		on segments.checkspageid = induct.checkspageid
+	inner join countries on induct.countryid = countries.countryid
+inner join checks on segments.segmentid = checks.segmentid
+-- UK
+-- where countryname = 'UK'
+-- where countryname in (select countryname from countries where countryid = 1)
+-- NZ
+-- where countryname = 'NZ'
+-- where countryname in (select countryname from countries where countryid = 2)
+;
+
+-- below query more useful for returning from API. Removes country name and returns all checks information.
+select
+checks.*, segments.segmenttitle
+from segments
+	inner join inductioncheckspage induct
+		on segments.checkspageid = induct.checkspageid
+	inner join countries on induct.countryid = countries.countryid
+inner join checks on segments.segmentid = checks.segmentid
+-- UK
+-- where countryname = 'UK'
+-- where countryname in (select countryname from countries where countryid = 1)
+-- NZ
+-- where countryname = 'NZ'
+-- where countryname in (select countryname from countries where countryid = 2)
+;

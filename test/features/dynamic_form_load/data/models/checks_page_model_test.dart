@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_model.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_type.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/checks_page_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/segment_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/entities/checks_page_entity.dart';
@@ -13,7 +14,7 @@ void main() {
       checkId: 1,
       text: "Are you going to work on any live electrical, stored energy/pressure system, or the electrical switchboard?",
       subText: "",
-      type: "yesNo",
+      type: CheckType.YES_NO,
       checkRequired: false,
       imageLink: ""
   );
@@ -22,7 +23,7 @@ void main() {
       checkId: 2,
       text: "Are you going to work on any live electrical, stored energy/pressure system, or the electrical switchboard?",
       subText: "<b>If yes,</b> how will you isolation and lock-out the system to make it safe to work on. What extra precautions will you take?",
-      type: "yesNo",
+      type: CheckType.YES_NO,
       checkRequired: true,
       imageLink: ""
   );
@@ -31,7 +32,7 @@ void main() {
       checkId: 3,
       text: "Could your work on site obstruct any access or egress in an emergency?",
       subText: "<b>If yes,</b> consider alternatives. This includes extinguishers, evacuation routes, assembly area, spill kit.",
-      type: "yesNo",
+      type: CheckType.YES_NO,
       checkRequired: false,
       imageLink: ""
   );
@@ -44,7 +45,7 @@ void main() {
       checkId: 4,
       text: "Is the contractor appropriately dressed, as per the image below?",
       subText: "<b>If yes,</b> consider alternatives. This includes extinguishers, evacuation routes, assembly area, spill kit.",
-      type: "yesNo",
+      type: CheckType.YES_NO,
       checkRequired: true,
       imageLink: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fae01.alicdn.com%2Fkf%2FHTB1QM7zQXXXXXXFaFXXq6xXFXXXn%2FMotorcycle-protective-gear-ski-protection-back-Armor-protection-spine-extreme-sports-protective-gear.jpg&f=1&nofb=1"
     )

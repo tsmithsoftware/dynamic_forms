@@ -22,7 +22,7 @@ services:
       POSTGRES_PASSWORD: example
 
   pg_admin:
-    image: dpage/pgadmin4:4
+    image: dpage/pgadmin4
     restart: always
     container_name: pgadmin4
     ports:
@@ -39,6 +39,17 @@ services:
         backend:
           aliases:
             - pg_admin
+            
+  api:
+    build: ./api
+    command: >
+        bash -c 'node server.js'
+    ports: 
+      - "4000:4000"
+    networks:
+        backend:
+            aliases:
+              - api
       
 networks:
   backend:
