@@ -47,7 +47,7 @@ class DynamicChecksPage extends StatelessWidget {
             ),
               SizedBox(height: 20),
               // Bottom half
-              PageControls(),
+              PageControls()
             ],
           ),
         ),

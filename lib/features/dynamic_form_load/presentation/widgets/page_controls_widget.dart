@@ -15,49 +15,31 @@ class PageControls extends StatefulWidget {
 }
 
 class _PageControlsState extends State<PageControls> {
-  final controller = TextEditingController();
-  String inputStr;
 
+  static const UK_CHECKS_ID = "1";
+  static const AU_CHECKS_ID = "2";
+  static const NZ_CHECKS_ID = "3";
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        TextField(
-          controller: controller,
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            hintText: 'Input a number',
-          ),
-          onChanged: (value) {
-            inputStr = value;
-          },
-          onSubmitted: (_) {
-            dispatchConcrete();
-          },
-        ),
-        SizedBox(height: 10),
-        Row(
+    return Row(
+      children: [
+        Column(
           children: <Widget>[
-            Expanded(
-              child: RaisedButton(
-                child: Text('Search'),
-                color: Theme.of(context).accentColor,
-                textTheme: ButtonTextTheme.primary,
-                onPressed: dispatchConcrete,
-              ),
-            ),
+            RaisedButton(child: Text("UK Checks"),onPressed: () => dispatchConcrete(UK_CHECKS_ID)),
+            SizedBox(height: 10),
+            RaisedButton(child: Text("AU Checks"),onPressed: () => dispatchConcrete(AU_CHECKS_ID)),
+            SizedBox(height: 10),
+            RaisedButton(child: Text("NZ Checks"),onPressed: () => dispatchConcrete(NZ_CHECKS_ID)),
+            SizedBox(height: 10)
           ],
-        )
+        ),
       ],
     );
   }
 
-  void dispatchConcrete() {
-    // Clearing the TextField to prepare it for the next inputted number
-    controller.clear();
+  void dispatchConcrete(String countryId) {
     BlocProvider.of<DynamicChecksLoadBloc>(context)
-        .add(GetChecksPageEvent(inputStr));
+        .add(GetChecksPageEvent(countryId));
   }
 }

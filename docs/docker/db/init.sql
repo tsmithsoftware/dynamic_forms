@@ -1,24 +1,59 @@
 -- creating tables
 
+CREATE TABLE countries(
+	countryId SERIAL PRIMARY KEY NOT NULL,
+	countryName VARCHAR(255) NOT NULL
+);
+INSERT INTO countries (countryName) VALUES ('UK'), ('Australia');
+
+-- used for if company not already listed
+CREATE TABLE whenLoaded (
+	whenLoadedId SERIAL PRIMARY KEY NOT NULL,
+	whenLoadedValue VARCHAR(50) NOT NULL
+);
+
+INSERT INTO whenLoaded (whenLoadedValue) VALUES ('INITIAL_LISTING'), ('CUSTOMER_ADDED');
+
+-- set up companies listing
+CREATE TABLE companies(
+	companyId SERIAL PRIMARY KEY NOT NULL,
+	companyName VARCHAR(50) NOT NULL,
+	whenLoadedId INT NOT NULL,
+		FOREIGN KEY (whenLoadedId)
+		REFERENCES whenLoaded(whenLoadedId)
+);
+INSERT INTO companies(companyname, whenLoadedId) VALUES ('McDonals', 1),('Banter King',1),('Nake',1), ('Himbala',1),('ZZ Slot',1),('Koompani',1);
+
 CREATE TABLE visitors(
     visitorId SERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(50) NOT NULL,
-    company VARCHAR(50) NOT NULL,
+    companyId INT NOT NULL,
+  	FOREIGN KEY (companyId)
+        REFERENCES companies(companyId)
+        ON UPDATE CASCADE
+        ON DELETE NO ACTION,
     imageLink VARCHAR(255),
-    createdDateTime timestamp DEFAULT CURRENT_TIMESTAMP,
-    lastUpdatedDateTime timestamp DEFAULT CURRENT_TIMESTAMP
+    createdDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lastUpdatedDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE countries(
-    countryId SERIAL PRIMARY KEY NOT NULL,
-    countryName VARCHAR(20)
-    );
+CREATE TABLE sites(
+    id SERIAL PRIMARY KEY NOT NULL,
+    siteId INT NOT NULL,
+    countryId INT NOT NULL,
+  		FOREIGN KEY (countryId)
+		REFERENCES countries(countryId),
+    siteName VARCHAR(255) NOT NULL,
+    town VARCHAR(255),
+    createdDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lastUpdatedDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
+);
 
 CREATE TABLE vehicles(
     vehicleId SERIAL PRIMARY KEY NOT NULL,
     vehicleReg VARCHAR(20),
-    createdDateTime timestamp DEFAULT CURRENT_TIMESTAMP,
-    lastUpdatedDateTime timestamp DEFAULT CURRENT_TIMESTAMP
+    createdDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lastUpdatedDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
 );
 
 CREATE TABLE inductionChecksPage(
@@ -60,97 +95,48 @@ ALTER TABLE checks
 ALTER COLUMN checksRequired
 SET DEFAULT FALSE;
 
-CREATE TABLE sites(
-    id SERIAL PRIMARY KEY NOT NULL,
-    siteId VARCHAR(10) NOT NULL,
-    sapId VARCHAR(10) UNIQUE,
-    countryId INT,
-    FOREIGN KEY (countryId)
-        REFERENCES countries(countryId)
-        ON UPDATE CASCADE
-        ON DELETE NO ACTION,
-    siteName VARCHAR(255) NOT NULL,
-    town VARCHAR(255),
-    channelOfTrade VARCHAR(10),
-    installationCount INT DEFAULT 1,
-    createdDateTime timestamp DEFAULT CURRENT_TIMESTAMP,
-    lastUpdatedDateTime timestamp DEFAULT CURRENT_TIMESTAMP
-);
-
-
-CREATE TABLE visits(
-    visitId SERIAL PRIMARY KEY NOT NULL,
-    visitorId INT,
-    FOREIGN KEY (visitorId)
-        REFERENCES visitors(visitorId)
-        ON UPDATE CASCADE
-        ON DELETE NO ACTION,
-    siteId int NOT NULL,
-    FOREIGN KEY (siteId)
-        REFERENCES sites(id)
-        ON UPDATE CASCADE
-        ON DELETE NO ACTION
-);
-
-CREATE TYPE visitStatus AS ENUM ('ok', 'left_site', 'incident');
-
-CREATE TABLE inductionVisitChecks (
-	visitChecksId SERIAL PRIMARY KEY NOT NULL,
-	visitId INT,
-	FOREIGN KEY (visitId)
-		REFERENCES visits(visitId)
-		ON UPDATE CASCADE
-		ON DELETE NO ACTION,
-	checksId INT,
-	FOREIGN KEY (checksId)
-		REFERENCES checks(checksId)
-		ON UPDATE CASCADE
-		ON DELETE NO ACTION,
-	status visitStatus 
-);
-
 -- insert sample data
 -- countries
 INSERT INTO countries (countryName) VALUES ('UK'), ('AU'), ('NZ');
 --sites
-INSERT INTO sites (siteId, siteName,town, sapId, countryId)
-VALUES(14501, 'Abington Avenue SF Connect', 'NORTHAMPTON', 'C0GR', 1),
-(14460, 'Acle SF Connect', 'NORWICH', 'C0MV', 1),
-(10102, 'Addington SF Connect', 'SOUTH CROYDON', 'C0FA', 1),
-(15276, 'Adel SF Connect', 'LEEDS', 'C0PP', 1),
-(15284, 'Airport City SF Connect', 'MANCHESTER', 'C0QC', 1),
-(10466,'Bagshot SF Connect', 'BAGSHOT', 'C0FC', 1),
-(14382, 'Bankhead SF Connect', 'GLENROTHES', 'C0EX', 1),
-(14977, 'Barnwood SF Connect', 'GLOUCESTER', 'C0MA', 1),
-(10569, 'Bradwell Abbey SF Connect', 'MILTON KEYNES', 'C0E0', 1),
-(13517, 'Buckingham SF Connect', 'BUCKINGHAM', 'C0AP', 1),
-(10057, 'Cambridge Road SF Connect', 'CARSHALTON', 'C0DF', 1),
-(12923, 'Cranford SF Connect', 'HOUNSLOW', 'C0FH',  1),
-(10472, 'Crownwood SF Connect', 'LONDON', 'C0JS', 1),
-(13262, 'Emerson Valley SF Connect', 'MILTON KEYNES', 'C06N', 1),
-(13943, 'Farnham SF Connect', 'FARNHAM', 'C0D5', 1),
-(10101, 'Findon Valley SF Connect','WORTHING', 'C0EH', 1),
-(10516, 'Finchley Lane SF Connect', 'UXBRIDGE', 'C0FJ', 1),
-(13267, 'Flying Red Horse SF Connect','WORTHING', 'C0MK', 1),
-(13268, 'Flyover SF Connect', 'HAMMERSMITH', 'C0B2', 1),
-(10463, 'Hampton Court SF Connect','EAST MOLESEY', 'C04T', 1),
-(10441, 'Kellys Corner SF Connect','LONDON', 'C057', 1),
-(12956, 'Kempton Park SF Connect','SUNBURY on THAMES', 'C0DE', 1),
-(12945, 'Newham Way Connect','BARNET', 'C074', 1),
-(10428, 'Odeon SF Connect','BARNET', 'C04W', 1),
-(10514, 'Pinkham Way SF Connect', 'LONDON', 'C0CU', 1),
-(12916, 'Ravenscroft SF Connect', 'HOUNSLOW', 'C06E', 1),
-(10070, 'Shirley SF Connect', 'CROYDON', 'C0CY', 1),
-(14827, 'Thame BP SF Connect', 'THAME', 'C0K2', 1),
-(12917, 'Wandsworth SF Connect', 'LONDON', 'C0BX', 1),
-(10571, 'Wavendon Gate SF Connect', 'MILTON KEYNES', 'C0BL', 1),
-(10195, 'Wilmslow SF Connect','WILMSLOW', 'C0MT', 1),
-(13010, 'Woodstock SF Connect','OXFORD', 'C0CP', 1),
-(10044, 'Wrythe SF Connect', 'CARSHALTON', 'C0E9', 1),
-(33333, 'AU Site One', 'MELBOURNE', 'AU837', 2),
-(44444, 'AU Site Two', 'BRISBANE', 'AU273', 3),
-(11111, 'NZ Site One', 'AUCKLAND', 'NZ023', 3),
-(22222, 'NZ Site Two', 'CHRISTCHURCH', 'NZEJ', 3)
+INSERT INTO sites (siteId, siteName,town, countryId)
+VALUES(14501, 'Abington Avenue SF Connect', 'NORTHAMPTON', 1),
+(14460, 'Acle SF Connect', 'NORWICH', 1),
+(10102, 'Addington SF Connect', 'SOUTH CROYDON',  1),
+(15276, 'Adel SF Connect', 'LEEDS',  1),
+(15284, 'Airport City SF Connect', 'MANCHESTER',  1),
+(10466,'Bagshot SF Connect', 'BAGSHOT',  1),
+(14382, 'Bankhead SF Connect', 'GLENROTHES',  1),
+(14977, 'Barnwood SF Connect', 'GLOUCESTER',  1),
+(10569, 'Bradwell Abbey SF Connect', 'MILTON KEYNES',  1),
+(13517, 'Buckingham SF Connect', 'BUCKINGHAM',  1),
+(10057, 'Cambridge Road SF Connect', 'CARSHALTON',  1),
+(12923, 'Cranford SF Connect', 'HOUNSLOW',   1),
+(10472, 'Crownwood SF Connect', 'LONDON',  1),
+(13262, 'Emerson Valley SF Connect', 'MILTON KEYNES',  1),
+(13943, 'Farnham SF Connect', 'FARNHAM', 1),
+(10101, 'Findon Valley SF Connect','WORTHING',  1),
+(10516, 'Finchley Lane SF Connect', 'UXBRIDGE',  1),
+(13267, 'Flying Red Horse SF Connect','WORTHING', 1),
+(13268, 'Flyover SF Connect', 'HAMMERSMITH',  1),
+(10463, 'Hampton Court SF Connect','EAST MOLESEY',  1),
+(10441, 'Kellys Corner SF Connect','LONDON',  1),
+(12956, 'Kempton Park SF Connect','SUNBURY on THAMES',  1),
+(12945, 'Newham Way Connect','BARNET',  1),
+(10428, 'Odeon SF Connect','BARNET', 1),
+(10514, 'Pinkham Way SF Connect', 'LONDON',  1),
+(12916, 'Ravenscroft SF Connect', 'HOUNSLOW',  1),
+(10070, 'Shirley SF Connect', 'CROYDON',  1),
+(14827, 'Thame BP SF Connect', 'THAME',  1),
+(12917, 'Wandsworth SF Connect', 'LONDON',  1),
+(10571, 'Wavendon Gate SF Connect', 'MILTON KEYNES',  1),
+(10195, 'Wilmslow SF Connect','WILMSLOW',  1),
+(13010, 'Woodstock SF Connect','OXFORD',  1),
+(10044, 'Wrythe SF Connect', 'CARSHALTON',  1),
+(33333, 'AU Site One', 'MELBOURNE',  2),
+(44444, 'AU Site Two', 'BRISBANE',  3),
+(11111, 'NZ Site One', 'AUCKLAND',  3),
+(22222, 'NZ Site Two', 'CHRISTCHURCH',  3)
 ;
 
 -- inductionChecksPage
@@ -174,7 +160,7 @@ values
 
 --checks
 INSERT INTO checks(checksText, checksSubText, checksType, checksRequired, imageLink, segmentId) VALUES (
-'Are you going to work on any live electrical, stored energy/pressure system, or the electrical switchboard?',
+'Are you going to work on anything else?',
 	'',
 	'yesNo',
 	false,
@@ -202,6 +188,46 @@ INSERT INTO checks(checksText, checksSubText, checksType, checksRequired, imageL
   	'yesNo',
   	false,'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fae01.alicdn.com%2Fkf%2FHTB1QM7zQXXXXXXFaFXXq6xXFXXXn%2FMotorcycle-protective-gear-ski-protection-back-Armor-protection-spine-extreme-sports-protective-gear.jpg&f=1&nofb=1',
 	2
+  ),
+  (
+  'Ignition Sources',
+  'No smoking or naked flames on site \n No mobile phones or electronic equipment to be used anywhere on site (except for inside the store) \n All maintenance work to be conducted in accordance with sage ways of working and correct PPE worn at all times.',
+  'yesNo',
+  true,
+  '',
+  3
+  ),
+  (
+  'Asbestos',
+  'Ensure Asbestos Register for the store has been sighted and any works adjusted accordingly.',
+  'yesNo',
+  false,
+  '',
+  3
+  ),
+  (
+  'Contractors',
+  'No Hot Work in hazardous zones to be completed without a written permit',
+  'yesNo',
+  false,
+  '',
+  3
+  ),
+    (
+  'Emergency Procedures',
+  'In the event of an emergency follow direction of BP site staff',
+  'yesNo',
+  false,
+  '',
+  3
+  ),
+    (
+  'Incidents / Hazards',
+  'Report all incidents and hazards to a BP site staff member',
+  'yesNo',
+  false,
+  '',
+  3
   ),
   (
 	'Shop/Store',

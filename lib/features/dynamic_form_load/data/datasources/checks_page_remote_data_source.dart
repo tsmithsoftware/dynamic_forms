@@ -16,10 +16,12 @@ class ChecksPageRemoteDataSourceImpl implements ChecksPageRemoteDataSource {
   ChecksPageRemoteDataSourceImpl({@required this.client});
   @override
   Future<ChecksPageModel> getChecksPage(int countryNumber) async {
+    // use 10.0.2.2. as local emulator address
     final response = await client.get(
-        'http://192.168.0.13:4000/checks?countryId=$countryNumber',
-      headers: { HttpHeaders.contentTypeHeader: ContentType.json.toString() }
-    );
+        'http://10.0.2.2:4000/checks?countryId=$countryNumber',
+        headers: {
+          HttpHeaders.contentTypeHeader: ContentType.json.toString()
+        }).timeout(Duration(seconds: 5));
 
     if (response.statusCode == 200) {
       return ChecksPageModel.fromJson(json.decode(response.body));
@@ -27,5 +29,4 @@ class ChecksPageRemoteDataSourceImpl implements ChecksPageRemoteDataSource {
       throw ServerException();
     }
   }
-
 }
