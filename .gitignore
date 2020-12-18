@@ -45,3 +45,5 @@ app.*.map.json
 
 # node.js module folder
 docs/docker/api/node_modules/
+docs/au
+docs/nz
