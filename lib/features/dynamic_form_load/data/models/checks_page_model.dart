@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/segment_model.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:collection/collection.dart';
 import 'package:quiver/core.dart';
 
+// ignore: must_be_immutable
 class ChecksPageModel extends ChecksPageEntity {
   List<CheckModel> storedChecks;
   List<SegmentModel> storedSegments;

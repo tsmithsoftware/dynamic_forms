@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_type.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/entities/check_entity.dart';
 import 'package:flutter/cupertino.dart';
 
+// ignore: must_be_immutable
 class CheckModel extends CheckEntity {
 
   bool isSelected = false;

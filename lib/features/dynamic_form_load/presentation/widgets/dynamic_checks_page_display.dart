@@ -84,6 +84,7 @@ class Segment implements ListItem {
   }
 }
 
+// ignore: must_be_immutable
 class CheckModelDisplay extends StatefulWidget {
   List<CheckModel> checks = List();
 

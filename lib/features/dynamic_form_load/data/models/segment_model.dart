@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:collection/collection.dart';
 import 'package:quiver/core.dart';
 
+// ignore: must_be_immutable
 class SegmentModel extends SegmentEntity {
   List<CheckModel> checksList = List();
   SegmentModel({@required String title, @required List<int> checks}): super(title: title, checks: checks);

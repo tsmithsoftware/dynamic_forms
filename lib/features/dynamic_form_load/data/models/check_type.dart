@@ -25,5 +25,6 @@ class CheckTypeFactory {
       case CheckType.NONE:
         return null;
     }
+    return "";
   }
 }
