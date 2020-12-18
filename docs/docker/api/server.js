@@ -1,14 +1,17 @@
 'use strict';
+
+//imports
 var where = require("lodash.where");
-var groupBy = require("lodash.groupBy");
+var groupBy = require("lodash.groupby");
 var url = require("url");
 const express = require('express');
-const { Client } = require('pg')
-var connectionString = 'postgres://user:example@192.168.56.1:5432/db'  //process.env.DATABASE_URL//
+const { Client } = require('pg');
+
+// setup
+var connectionString = process.env.DATABASE_URL
 console.log('database url from env is: ', connectionString)
 // set timezone
 process.env.TZ = 'Europe/London';
-
 const client = new Client({
 	connectionString
 });

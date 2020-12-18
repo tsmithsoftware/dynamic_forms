@@ -1,0 +1,17 @@
+{
+  "name": "docker_web_app",
+  "version": "1.0.0",
+  "description": "Node.js on Docker",
+  "author": "First Last <first.last@example.com>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "lodash.groupby": "^4.6.0",
+    "lodash.where": "^3.1.0",
+    "pg": "^8.5.1",
+    "url": "^0.11.0"
+  }
+}

@@ -1,0 +1,6 @@
+  api:
+    build: .
+    command: >
+        bash -c 'node server.js'
+    ports: 
+      - "4000:4000"
