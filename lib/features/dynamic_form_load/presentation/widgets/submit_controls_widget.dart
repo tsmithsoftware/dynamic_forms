@@ -34,43 +34,5 @@ class SubmitControlsState extends State<SubmitControls> {
       },
       child: Row(children: [Text("blah")])
     );
-    return BlocProvider.value(
-        value: sl<DynamicChecksLoadBloc>(),
-        child: BlocBuilder<DynamicChecksLoadBloc, DynamicChecksLoadState>(
-            cubit: sl<DynamicChecksLoadBloc>(),
-            builder: (context, state) {
-              if (state is Loading) {
-                return LoadingIndicator();
-              } else if (state is Loaded) {
-                return RaisedButton(onPressed: () {
-                  Get.to(
-                      SubmitPage(
-                          submittedChecks: state.checksPage.storedChecks));
-                });
-              }
-              return Container(child: Text("hah"),);
-            }
-        )
-    );
   }
 }
-
-
-/**
-    return BlocProvider.value(value: BlocProvider.of(context)<DynamicChecksLoadBloc>)<DynamicChecksLoadBloc, DynamicChecksLoadState>(
-      cubit: sl<DynamicChecksLoadBloc>(),
-        builder: (context,state) {
-          if (state is Loading) {
-            return LoadingIndicator();
-          } else if (state is Loaded) {
-            return RaisedButton(onPressed: (){
-              Get.to(
-                  SubmitPage(submittedChecks: state.checksPage.storedChecks));
-            });
-          }
-          return Container(child: Text("hah"),);
-        }
-    );
-  }
-}
-**/
