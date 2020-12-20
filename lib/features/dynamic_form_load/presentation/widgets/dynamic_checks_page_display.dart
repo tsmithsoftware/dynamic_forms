@@ -20,12 +20,14 @@ class DynamicChecksPageDisplay extends StatelessWidget {
       List<ListItem> segments = buildList(checksPageModel);
       return Container(
         height: MediaQuery.of(context).size.height / 2,
-        child: ListView.builder(
-            itemCount: segments.length,
-            itemBuilder: (context, index) {
-              final item = segments[index];
-              return ListTile(title: item.buildSegment(context));
-            }),
+        child: SizedBox(
+          child: ListView.builder(
+              itemCount: segments.length,
+              itemBuilder: (context, index) {
+                final item = segments[index];
+                return ListTile(title: item.buildSegment(context));
+              }),
+        ),
       );
     }
     return Container();
@@ -119,14 +121,16 @@ class _CheckModelDisplayState extends State<CheckModelDisplay> {
       );
     }
     if (item.type == CheckType.YES_NO) {
+      double width = MediaQuery.of(context).size.width;
+
       return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(item.text, style: TextStyle(fontSize: 20),),
-              Text(item.subText, style: TextStyle(fontSize: 15),),
+              SizedBox(width: (width / 10) * 8, child: Text(item.text, style: TextStyle(fontSize: 20), maxLines: 5,overflow: TextOverflow.ellipsis,)),
+              SizedBox(width: (width / 10) * 8, child: Text(item.subText, style: TextStyle(fontSize: 15), maxLines: 5,overflow: TextOverflow.ellipsis,)),
               avatar == null ? Container() : avatar
             ],
           ),

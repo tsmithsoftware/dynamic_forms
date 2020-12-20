@@ -9,9 +9,7 @@ class PageControls extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _PageControlsState();
-  }
+  State<StatefulWidget> createState() => _PageControlsState();
 }
 
 class _PageControlsState extends State<PageControls> {
@@ -24,16 +22,12 @@ class _PageControlsState extends State<PageControls> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Column(
-          children: <Widget>[
-            RaisedButton(child: Text("UK Checks"),onPressed: () => dispatchConcrete(UK_CHECKS_ID)),
-            SizedBox(height: 10),
-            RaisedButton(child: Text("AU Checks"),onPressed: () => dispatchConcrete(AU_CHECKS_ID)),
-            SizedBox(height: 10),
-            RaisedButton(child: Text("NZ Checks"),onPressed: () => dispatchConcrete(NZ_CHECKS_ID)),
-            SizedBox(height: 10)
-          ],
-        ),
+        RaisedButton(child: Text("UK Checks"),onPressed: () => dispatchConcrete(UK_CHECKS_ID)),
+        SizedBox(width: 10),
+        RaisedButton(child: Text("AU Checks"),onPressed: () => dispatchConcrete(AU_CHECKS_ID)),
+        SizedBox(width: 10),
+        RaisedButton(child: Text("NZ Checks"),onPressed: () => dispatchConcrete(NZ_CHECKS_ID)),
+        SizedBox(width: 10),
       ],
     );
   }
