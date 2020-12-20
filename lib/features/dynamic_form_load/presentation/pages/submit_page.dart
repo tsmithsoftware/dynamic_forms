@@ -17,11 +17,16 @@ class SubmitPage extends StatelessWidget {
   }
 
   buildBody(BuildContext context) {
-    return Center(
-        child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: GridView.count(
-              childAspectRatio: 1.8,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Text("Checks to be submitted: "),
+            GridView.count(
+              physics: ScrollPhysics(),
+              childAspectRatio: 5,
+              //adjust to change height
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               crossAxisSpacing: 32,
               mainAxisSpacing: 32,
@@ -30,7 +35,15 @@ class SubmitPage extends StatelessWidget {
               children: submittedChecks
                   .map((e) => SingleCheckModelSubmissionDisplay(check: e))
                   .toList(),
-            )));
+            ),
+            RaisedButton(
+              onPressed: () {},
+              child: Text("Submit to database"),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -70,23 +83,19 @@ class ChecksDetailsColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-        child: Text(
-          check.text,
-          softWrap: true,
-        )
-/*       Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            check.text,
-            softWrap: true,
-          ),
-          Text(
-            check.subText,
-            softWrap: true,
-          )
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              check.text,
+              softWrap: true,
+            ),
+            Text(
+              check.subText,
+              softWrap: true,
+            )
         ],
-      )*/
+        )
     );
   }
 }
