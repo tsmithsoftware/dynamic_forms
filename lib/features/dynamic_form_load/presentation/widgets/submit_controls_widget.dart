@@ -1,15 +1,11 @@
 import 'package:dynamic_forms/base_injection_container.dart';
-import 'package:dynamic_forms/features/dynamic_form_load/domain/usecases/get_checks_page.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/presentation/bloc/bloc.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/presentation/bloc/dynamic_checks_load_bloc.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/presentation/bloc/dynamic_checks_load_state.dart';
-import 'package:dynamic_forms/features/dynamic_form_load/presentation/pages/submit_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 
-import 'loading_indicator.dart';
 
 class SubmitControls extends StatefulWidget {
   @override
