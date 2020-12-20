@@ -18,16 +18,19 @@ class SubmitPage extends StatelessWidget {
 
   buildBody(BuildContext context) {
     return Center(
-      child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: ListView.builder(
+        child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: GridView.count(
+              childAspectRatio: 1.8,
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              crossAxisSpacing: 32,
+              mainAxisSpacing: 32,
+              crossAxisCount: 2,
               shrinkWrap: true,
-              itemCount: submittedChecks.length,
-              itemBuilder: (BuildContext ctxt, int index) {
-                CheckModel model = submittedChecks[index];
-                return SingleCheckModelSubmissionDisplay(check: model);
-              })),
-    );
+              children: submittedChecks
+                  .map((e) => SingleCheckModelSubmissionDisplay(check: e))
+                  .toList(),
+            )));
   }
 }
 
@@ -39,28 +42,19 @@ class SingleCheckModelSubmissionDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+        elevation: 5.0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
+          borderRadius: BorderRadius.circular(32.0),
         ),
-        child: check.isSelected
-            ? buildSelectedCheck(context)
-            : buildUnselectedCheck(context));
-  }
-
-  Widget buildUnselectedCheck(BuildContext context) {
-    return Container(
-      width: 5,
-      color: Colors.redAccent,
-      child: ChecksDetailsColumn(check: check),
-    );
-  }
-
-  Widget buildSelectedCheck(BuildContext context) {
-    return Container(
-      width: 50,
-      color: Colors.greenAccent,
-      child: ChecksDetailsColumn(check: check),
-    );
+        color: check.isSelected ? Colors.greenAccent : Colors.redAccent,
+        child: InkWell(
+            customBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(32.0),
+            ),
+            splashColor: Colors.blue,
+            onTap: () => Scaffold.of(context)
+                .showSnackBar(SnackBar(content: Text("Shown!"))),
+            child: ChecksDetailsColumn(check: check)));
   }
 }
 
@@ -74,20 +68,25 @@ class ChecksDetailsColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Text(
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+        child: Text(
           check.text,
           softWrap: true,
-        ),
-        Text(
-          check.subText,
-          softWrap: true,
         )
-      ],
+/*       Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            check.text,
+            softWrap: true,
+          ),
+          Text(
+            check.subText,
+            softWrap: true,
+          )
+        ],
+      )*/
     );
   }
 }
