@@ -54,19 +54,27 @@ class SingleCheckModelSubmissionDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color cardColour = Colors.redAccent;
+    if (check.submissionText.isEmpty) {
+      cardColour = check.isSelected ? Colors.greenAccent : Colors.redAccent;
+    } else {
+      cardColour = Colors.greenAccent;
+    }
+
     return Card(
         elevation: 5.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(32.0),
         ),
-        color: check.isSelected ? Colors.greenAccent : Colors.redAccent,
+        color: cardColour,
         child: InkWell(
             customBorder: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(32.0),
             ),
             splashColor: Colors.blue,
-            onTap: () => Scaffold.of(context)
-                .showSnackBar(SnackBar(content: Text("Shown!"))),
+            onTap: () =>
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text("Shown!"))),
             child: ChecksDetailsColumn(check: check)));
   }
 }
@@ -81,6 +89,11 @@ class ChecksDetailsColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget container = Container();
+    if (check.submissionText.isNotEmpty) {
+      container = Text(check.submissionText);
+    }
+
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
         child: Column(
@@ -93,8 +106,9 @@ class ChecksDetailsColumn extends StatelessWidget {
             Text(
               check.subText,
               softWrap: true,
-            )
-        ],
+            ),
+            container
+          ],
         )
     );
   }

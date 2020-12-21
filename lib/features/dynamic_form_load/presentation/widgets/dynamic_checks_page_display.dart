@@ -103,12 +103,18 @@ class _CheckModelDisplayState extends State<CheckModelDisplay> {
   _CheckModelDisplayState({@required this.checks});
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: this.checks.length,
         itemBuilder: (contents, index) {
           final item = checks[index];
-          return SizedBox(height: 90,child: ListTile(title: buildCheckItemWidget(item)));
+          return SizedBox(
+              height: 90, child: ListTile(title: buildCheckItemWidget(item)));
         });
   }
 
@@ -144,8 +150,35 @@ class _CheckModelDisplayState extends State<CheckModelDisplay> {
               })
         ],
       );
+    } else if (item.type == CheckType.STRING) {
+      double width = MediaQuery.of(context).size.width;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+              width: (width / 10) * 8,
+              child: Text(
+                item.text,
+                style: TextStyle(fontSize: 20),
+                maxLines: 5,
+                overflow: TextOverflow.ellipsis,
+              )),
+          SizedBox(
+              width: (width / 10) * 8,
+              child: Text(
+                item.subText,
+                style: TextStyle(fontSize: 15),
+                maxLines: 5,
+                overflow: TextOverflow.ellipsis,
+              )),
+          avatar == null ? Container() : avatar,
+          TextField(
+            onChanged: (newStringValue) => item.submissionText = newStringValue,
+          )
+        ],
+      );
     } else {
-     return Container();
+      return Container();
     }
   }
 }

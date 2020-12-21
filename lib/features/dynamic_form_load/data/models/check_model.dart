@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 class CheckModel extends CheckEntity {
 
   bool isSelected = false;
+  String submissionText = "";
 
   CheckModel(
       {@required int checkId,

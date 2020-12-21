@@ -4,6 +4,7 @@ import 'package:dynamic_forms/core/error/failure.dart';
 import 'package:dynamic_forms/core/network/network_info.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/datasources/checks_page_local_data_source.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/datasources/checks_page_remote_data_source.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/data/models/visit_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/entities/checks_page_entity.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/repositories/checks_page_repository.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,5 +39,11 @@ class ChecksPageRepositoryImpl implements ChecksPageRepository {
         return Left(CacheFailure());
       }
     }
+  }
+
+  @override
+  Future<Either<Failure, bool>> signInVisitor(VisitModel visit) {
+    // TODO: implement signInVisitor
+    throw UnimplementedError();
   }
 }

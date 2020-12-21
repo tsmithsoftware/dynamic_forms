@@ -1,0 +1,12 @@
+{
+  "checks": [
+    {
+      "checkId": 1,
+      "checkStatus": false
+    },
+    {
+      "checkId": 2,
+      "checkStatus": true
+    }
+  ]
+}
