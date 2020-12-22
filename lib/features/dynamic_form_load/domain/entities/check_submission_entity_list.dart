@@ -10,6 +10,4 @@ class CheckSubmissionEntityList extends Equatable {
   @override
   List<Object> get props =>
       entities;
-
-  bool get stringify => true;
 }

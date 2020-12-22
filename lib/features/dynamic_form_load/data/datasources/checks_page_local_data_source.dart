@@ -2,12 +2,16 @@ import 'dart:convert';
 
 import 'package:dynamic_forms/core/error/exception.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/checks_page_model.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/data/models/visit_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class ChecksPageLocalDataSource {
   Future<ChecksPageModel> getLastChecksPageModel();
+
   Future<void> cacheChecksPageModel(ChecksPageModel modelToCache);
+
+  Future<void> cacheSignInVisitor(VisitModel visit);
 }
 
 const CACHED_CHECKS_PAGE = "CACHED_CHECKS_PAGE";
@@ -30,5 +34,11 @@ class ChecksPageLocalDataSourceImpl implements ChecksPageLocalDataSource {
     } else {
       throw CacheException();
     }
+  }
+
+  @override
+  Future<void> cacheSignInVisitor(VisitModel visit) {
+    // TODO: implement cacheSignInVisitor
+    throw UnimplementedError();
   }
 }

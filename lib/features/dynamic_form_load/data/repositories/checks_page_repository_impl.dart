@@ -10,22 +10,22 @@ import 'package:dynamic_forms/features/dynamic_form_load/domain/repositories/che
 import 'package:flutter/cupertino.dart';
 
 class ChecksPageRepositoryImpl implements ChecksPageRepository {
-
   final ChecksPageRemoteDataSource remoteDataSource;
   final ChecksPageLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
 
-  ChecksPageRepositoryImpl({
-    @required this.remoteDataSource,
-    @required this.localDataSource,
-    @required this.networkInfo
-  });
+  ChecksPageRepositoryImpl(
+      {@required this.remoteDataSource,
+      @required this.localDataSource,
+      @required this.networkInfo});
 
   @override
-  Future<Either<Failure, ChecksPageEntity>> getChecksPage(int countryNumber) async {
+  Future<Either<Failure, ChecksPageEntity>> getChecksPage(
+      int countryNumber) async {
     if (await networkInfo.isConnected) {
       try {
-        final remoteChecksPage = await remoteDataSource.getChecksPage(countryNumber);
+        final remoteChecksPage =
+            await remoteDataSource.getChecksPage(countryNumber);
         localDataSource.cacheChecksPageModel(remoteChecksPage);
         return Right(remoteChecksPage);
       } on ServerException {
@@ -42,8 +42,18 @@ class ChecksPageRepositoryImpl implements ChecksPageRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> signInVisitor(VisitModel visit) {
-    // TODO: implement signInVisitor
-    throw UnimplementedError();
+  Future<Either<Failure, bool>> signInVisitor(VisitModel visit) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final signinResponse = await remoteDataSource.signInVisitor(visit);
+        localDataSource.cacheSignInVisitor(visit);
+        return Right(signinResponse);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      localDataSource.cacheSignInVisitor(visit);
+      return Right(true);
+    }
   }
 }
