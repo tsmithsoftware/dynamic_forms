@@ -17,7 +17,7 @@ void main() {
     test('should return a valid model from json', () async {
       // arrange
       final Map<String, dynamic> jsonMap =
-          json.decode(fixture('check_submission_list.json'));
+          json.decode(fixture('check_submission.json'));
       // act
       final result = CheckSubmissionModel.fromJson(jsonMap);
       // assert
@@ -31,7 +31,7 @@ void main() {
       final result = tCheckSubmissionModel.toJson();
       // assert
       final expectedJsonMap =
-          json.decode(fixture('check_submission_list.json'));
+          json.decode(fixture('check_submission.json'));
       expect(result, expectedJsonMap);
     });
   });

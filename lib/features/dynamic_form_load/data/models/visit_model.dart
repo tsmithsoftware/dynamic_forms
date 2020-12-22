@@ -3,8 +3,6 @@ import 'package:dynamic_forms/features/dynamic_form_load/data/models/visitor_mod
 import 'package:dynamic_forms/features/dynamic_form_load/domain/entities/visit_entity.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'check_submission_model.dart';
-
 class VisitModel extends VisitEntity {
   final VisitorModel visitor;
   final int siteId;
@@ -14,7 +12,6 @@ class VisitModel extends VisitEntity {
       {@required this.visitor, @required this.siteId, @required this.checks});
 
   factory VisitModel.fromJson(Map<String, dynamic> jsonMap) {
-    List<CheckSubmissionModel> ch = List();
     return VisitModel(
         visitor: VisitorModel.fromJson(jsonMap['visitor']),
         siteId: jsonMap['siteId'],

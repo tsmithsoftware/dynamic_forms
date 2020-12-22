@@ -11,10 +11,12 @@ import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
   final tVisitorModel = VisitorModel(visitorName: "Bob", visitorCompany: "BP");
-  final tChecks = CheckSubmissionModelList(
-      list: [CheckSubmissionModel(checkId: 1, checkStatus: true)]);
+  final tChecks = CheckSubmissionModelList(list: [
+    CheckSubmissionModel(checkId: 1, checkStatus: false),
+    CheckSubmissionModel(checkId: 2, checkStatus: true)
+  ]);
   final tVisitModel =
-      VisitModel(siteId: 1, visitor: tVisitorModel, checks: tChecks);
+      VisitModel(siteId: 2, visitor: tVisitorModel, checks: tChecks);
 
   test('should extend VisitEntity', () {
     expect(tVisitModel, isA<VisitEntity>());

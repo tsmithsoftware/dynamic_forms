@@ -1,5 +1,4 @@
-{
-  "checks": [
+[
     {
       "checkId": 1,
       "checkStatus": false
@@ -9,4 +8,3 @@
       "checkStatus": true
     }
   ]
-}

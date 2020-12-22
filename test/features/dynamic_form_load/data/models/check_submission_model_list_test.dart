@@ -20,7 +20,7 @@ void main() {
   group('from Json', () {
     test('should return a valid model from json', () async {
       // arrange
-      final Map<String, dynamic> jsonMap =
+      final List<dynamic> jsonMap =
           json.decode(fixture('check_submission_list.json'));
       // act
       final result = CheckSubmissionModelList.fromJson(jsonMap);
