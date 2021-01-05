@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:dynamic_forms/core/error/failure.dart';
-import 'package:dynamic_forms/core/usecases/usecase.dart';
+import 'package:dynamic_forms/common/error/failure.dart';
+import 'package:dynamic_forms/common/usecases/usecase.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/visit_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/repositories/checks_page_repository.dart';
 import 'package:equatable/equatable.dart';

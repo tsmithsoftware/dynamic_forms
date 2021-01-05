@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dynamic_forms/core/error/exception.dart';
+import 'package:dynamic_forms/common/error/exception.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/checks_page_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/visit_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,12 +22,12 @@ class ChecksPageLocalDataSourceImpl implements ChecksPageLocalDataSource {
   ChecksPageLocalDataSourceImpl({@required this.sharedPreferences});
 
   @override
-  Future<void> cacheChecksPageModel(ChecksPageModel modelToCache) {
+  Future<void> cacheChecksPageModel(ChecksPageModel modelToCache) async {
    return sharedPreferences.setString(CACHED_CHECKS_PAGE, json.encode(modelToCache.toJson()));
   }
 
   @override
-  Future<ChecksPageModel> getLastChecksPageModel() {
+  Future<ChecksPageModel> getLastChecksPageModel() async {
     final jsonString = sharedPreferences.getString(CACHED_CHECKS_PAGE);
     if (jsonString != null) {
       return Future.value(ChecksPageModel.fromJson(json.decode(jsonString)));
@@ -37,7 +37,7 @@ class ChecksPageLocalDataSourceImpl implements ChecksPageLocalDataSource {
   }
 
   @override
-  Future<void> cacheSignInVisitor(VisitModel visit) {
+  Future<void> cacheSignInVisitor(VisitModel visit) async {
     // TODO: implement cacheSignInVisitor
     throw UnimplementedError();
   }

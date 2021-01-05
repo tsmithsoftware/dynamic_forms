@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:dynamic_forms/core/error/exception.dart';
-import 'package:dynamic_forms/core/error/failure.dart';
-import 'package:dynamic_forms/core/network/network_info.dart';
+import 'package:dynamic_forms/common/error/exception.dart';
+import 'package:dynamic_forms/common/error/failure.dart';
+import 'package:dynamic_forms/common/network/network_info.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/datasources/checks_page_local_data_source.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/datasources/checks_page_remote_data_source.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_model.dart';
@@ -14,6 +14,7 @@ import 'package:dynamic_forms/features/dynamic_form_load/data/models/visit_model
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/visitor_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/repositories/checks_page_repository_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
 
 class MockChecksPageRemoteDataSource extends Mock
@@ -257,9 +258,8 @@ void main() {
       setUp(() {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
       });
+
       test('should save visitor details directly to cache', () async {
-        //arrange
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
         // act
         await repository.signInVisitor(tVisitModel);
         // assert
@@ -267,6 +267,21 @@ void main() {
         verify(mockLocalDataSource.cacheSignInVisitor(tVisitModel));
         verifyNoMoreInteractions(mockRemoteDataSource);
       });
+
+      test(
+        'should return CacheFailure when there is a problem caching data',
+            () async {
+          // arrange
+          when(mockLocalDataSource.cacheSignInVisitor(any))
+              .thenThrow(CacheException());
+          // act
+          final result = await repository.signInVisitor(tVisitModel);
+          // assert
+          verifyZeroInteractions(mockRemoteDataSource);
+          verify(mockLocalDataSource.cacheSignInVisitor(tVisitModel));
+          expect(result, equals(Left(CacheFailure())));
+        },
+      );
     });
   });
 }

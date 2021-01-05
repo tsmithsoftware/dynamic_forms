@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:dynamic_forms/core/error/exception.dart';
-import 'package:dynamic_forms/core/error/failure.dart';
-import 'package:dynamic_forms/core/network/network_info.dart';
+import 'package:dynamic_forms/common/error/exception.dart';
+import 'package:dynamic_forms/common/error/failure.dart';
+import 'package:dynamic_forms/common/network/network_info.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/datasources/checks_page_local_data_source.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/datasources/checks_page_remote_data_source.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/visit_model.dart';
@@ -52,8 +52,12 @@ class ChecksPageRepositoryImpl implements ChecksPageRepository {
         return Left(ServerFailure());
       }
     } else {
-      localDataSource.cacheSignInVisitor(visit);
-      return Right(true);
+      try {
+        localDataSource.cacheSignInVisitor(visit);
+        return Right(true);
+      } on CacheException {
+        return Left(CacheFailure());
+      }
     }
   }
 }

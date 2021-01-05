@@ -2,13 +2,14 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dynamic_forms/core/error/exception.dart';
+import 'package:dynamic_forms/common/error/exception.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/datasources/checks_page_remote_data_source.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/checks_page_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
+import 'package:matcher/matcher.dart' as matcher;
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -75,7 +76,7 @@ void main() {
         // act
         final call = dataSource.getChecksPage;
         // assert
-        expect(() => call(tNumber), throwsA(TypeMatcher<ServerException>()));
+        expect(() => call(tNumber), throwsA(matcher.isA<ServerException>()));
       },
     );
 

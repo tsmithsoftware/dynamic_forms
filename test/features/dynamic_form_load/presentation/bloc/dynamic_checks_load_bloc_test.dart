@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:dynamic_forms/core/error/failure.dart';
-import 'package:dynamic_forms/core/util/presentation/input_converter.dart';
+import 'package:dynamic_forms/common/error/failure.dart';
+import 'package:dynamic_forms/common/util/presentation/input_converter.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/checks_page_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/segment_model.dart';

@@ -2,9 +2,10 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'core/network/network_info.dart';
-import 'core/util/presentation/input_converter.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/injection_container.dart' as dynamic_form_load;
+
+import 'common/network/network_info.dart';
+import 'common/util/presentation/input_converter.dart';
 
 final sl = GetIt.instance;
 

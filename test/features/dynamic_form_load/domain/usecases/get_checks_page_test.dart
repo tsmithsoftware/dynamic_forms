@@ -7,7 +7,8 @@ import 'package:dynamic_forms/features/dynamic_form_load/domain/usecases/get_che
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../../core/shared_mocks.dart';
+import '../../../../common/shared_mocks.dart';
+
 
 void main() {
   GetChecksPage usecase;

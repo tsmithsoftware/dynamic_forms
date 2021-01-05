@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
-import 'package:dynamic_forms/core/error/failure.dart';
-import 'package:dynamic_forms/core/util/presentation/input_converter.dart';
+import 'package:dynamic_forms/common/error/failure.dart';
+import 'package:dynamic_forms/common/util/presentation/input_converter.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/entities/checks_page_entity.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/usecases/get_checks_page.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/presentation/bloc/bloc.dart';

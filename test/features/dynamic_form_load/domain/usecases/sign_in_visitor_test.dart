@@ -5,7 +5,8 @@ import 'package:dynamic_forms/features/dynamic_form_load/domain/usecases/sign_in
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../../core/shared_mocks.dart';
+import '../../../../common/shared_mocks.dart';
+
 
 void main() {
   SignInVisitor usecase;
