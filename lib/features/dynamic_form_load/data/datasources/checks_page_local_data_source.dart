@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:dynamic_forms/common/constants.dart';
 import 'package:dynamic_forms/common/error/exception.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/checks_page_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/visit_model.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/data/models/visit_model_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,8 +15,6 @@ abstract class ChecksPageLocalDataSource {
 
   Future<void> cacheSignInVisitor(VisitModel visit);
 }
-
-const CACHED_CHECKS_PAGE = "CACHED_CHECKS_PAGE";
 
 class ChecksPageLocalDataSourceImpl implements ChecksPageLocalDataSource {
   final SharedPreferences sharedPreferences;
@@ -38,7 +38,17 @@ class ChecksPageLocalDataSourceImpl implements ChecksPageLocalDataSource {
 
   @override
   Future<void> cacheSignInVisitor(VisitModel visit) async {
-    // TODO: implement cacheSignInVisitor
-    throw UnimplementedError();
+    VisitModelList visitModelList;
+    String previousCachedVisits =
+        sharedPreferences.getString(CACHED_VISITOR_LIST);
+    if (previousCachedVisits != null) {
+      Map<String, dynamic> previousAsJson = json.decode(previousCachedVisits);
+      visitModelList = VisitModelList.fromJson(previousAsJson);
+    } else {
+      visitModelList = VisitModelList([]);
+    }
+    visitModelList.tVisitList.add(visit);
+    String encodedVisitorList = json.encode(visitModelList.toJson());
+    return sharedPreferences.setString(CACHED_VISITOR_LIST, encodedVisitorList);
   }
 }
