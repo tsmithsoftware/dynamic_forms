@@ -100,25 +100,52 @@ void main() {
         json.decode(fixture("sign_in_visitor_response_success.json")));
 
     test(
-      'should perform a POST request on a URL with application/json header',
+      'should perform a POST request on a URL with application/json header and json encoded body',
       () async {
         //arrange
         setUpClientSignIn200();
 
-        // act
-        dataSource.signInVisitor(VisitModel(
+        var tVisitModel = VisitModel(
             checks: CheckSubmissionModelList(
                 list: [CheckSubmissionModel(checkId: 1, checkStatus: true)]),
             siteId: 1,
             visitor: VisitorModel(
                 visitorCompany: "The British Government",
-                visitorName: "All The Bonds")));
+                visitorName: "All The Bonds"));
+        // act
+        dataSource.signInVisitor(tVisitModel);
 
         // assert
-        verify(mockHttpClient.post(
-          'http://10.0.2.2:4000/visits',
-          headers: {HttpHeaders.contentTypeHeader: ContentType.json.toString()},
-        ));
+        verify(mockHttpClient.post('http://10.0.2.2:4000/visits',
+            headers: {
+              HttpHeaders.contentTypeHeader: ContentType.json.toString()
+            },
+            body: json.encode(tVisitModel)));
+      },
+    );
+
+    test(
+      'should perform a POST request with a json - encoded Visit Model in the body',
+      () async {
+        //arrange
+        setUpClientSignIn200();
+        final tVisitModel = VisitModel(
+            checks: CheckSubmissionModelList(
+                list: [CheckSubmissionModel(checkId: 1, checkStatus: true)]),
+            siteId: 1,
+            visitor: VisitorModel(
+                visitorCompany: "The British Government",
+                visitorName: "All The Bonds"));
+
+        // act
+        dataSource.signInVisitor(tVisitModel);
+
+        // assert
+        verify(mockHttpClient.post('http://10.0.2.2:4000/visits',
+            headers: {
+              HttpHeaders.contentTypeHeader: ContentType.json.toString()
+            },
+            body: json.encode(tVisitModel)));
       },
     );
 
@@ -146,7 +173,7 @@ void main() {
       'should throw a ServerException when the response code is 404 or other',
       () async {
         // arrange
-        when(mockHttpClient.post(any, headers: anyNamed('headers'))).thenAnswer(
+        when(mockHttpClient.post(any, headers: anyNamed('headers'), body: anyNamed('body'))).thenAnswer(
           (_) async => http.Response('Something went wrong', 404),
         );
         // act

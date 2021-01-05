@@ -46,9 +46,9 @@ class ChecksPageRepositoryImpl implements ChecksPageRepository {
   Future<Either<Failure, SignInVisitorResponseModel>> signInVisitor(VisitModel visit) async {
     if (await networkInfo.isConnected) {
       try {
-        final signinResponse = await remoteDataSource.signInVisitor(visit);
+        final signInResponse = await remoteDataSource.signInVisitor(visit);
         localDataSource.cacheSignInVisitor(visit);
-        return Right(signinResponse);
+        return Right(signInResponse);
       } on ServerException {
         return Left(ServerFailure());
       }

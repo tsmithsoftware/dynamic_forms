@@ -194,6 +194,7 @@ app.post('/visits', async (req, res) => {
 			}
 			// company created
 			// create visitors
+			console.log('creating visitor using company id: ${companyId}')
 			const visitorsQuery = `INSERT INTO visitors (visitorName, companyId) VALUES('${visitor.visitorName}', ${companyId}) RETURNING visitorid;`;
 			var visitorId = 0;
 			console.log("visitor insert query: " + visitorsQuery);

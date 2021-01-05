@@ -24,9 +24,12 @@ class ChecksPageRemoteDataSourceImpl implements ChecksPageRemoteDataSource {
     final response = await client
         .get('http://10.0.2.2:4000/checks?countryId=$countryNumber', headers: {
       HttpHeaders.contentTypeHeader: ContentType.json.toString()
-    }).timeout(Duration(seconds: 5), onTimeout: () {
-      throw ServerException();
-    },);
+    }).timeout(
+      Duration(seconds: 5),
+      onTimeout: () {
+        throw ServerException();
+      },
+    );
 
     if (response.statusCode == 200) {
       return ChecksPageModel.fromJson(json.decode(response.body));
@@ -37,9 +40,13 @@ class ChecksPageRemoteDataSourceImpl implements ChecksPageRemoteDataSource {
 
   @override
   Future<SignInVisitorResponseModel> signInVisitor(VisitModel visit) async {
-    final response = await client.post('http://10.0.2.2:4000/visits', headers: {
-      HttpHeaders.contentTypeHeader: ContentType.json.toString()
-    }).timeout(Duration(seconds: 5), onTimeout: () {
+    final response = await client
+        .post('http://10.0.2.2:4000/visits',
+            headers: {
+              HttpHeaders.contentTypeHeader: ContentType.json.toString()
+            },
+            body: json.encode(visit))
+        .timeout(Duration(seconds: 5), onTimeout: () {
       throw ServerException();
     });
 

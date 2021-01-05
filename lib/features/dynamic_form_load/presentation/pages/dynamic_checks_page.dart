@@ -1,12 +1,16 @@
 import 'package:dynamic_forms/base_injection_container.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/data/models/visitor_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/presentation/bloc/dynamic_forms_bloc/bloc.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/presentation/widgets/submit_controls_widget.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/presentation/widgets/visitor_model_details_display.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/presentation/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DynamicChecksPage extends StatelessWidget {
+  VisitorDisplayModel _visitorModel = VisitorDisplayModel();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +45,7 @@ class DynamicChecksPage extends StatelessWidget {
                       children: [
                         DynamicChecksPageDisplay(
                             checksPageModel: state.checksPage),
-                        SubmitControls(checksPage: state.checksPage)
+                        SubmitControls(checksPage: state.checksPage, visitorModel: _visitorModel)
                       ],
                     ));
                   }
@@ -53,8 +57,8 @@ class DynamicChecksPage extends StatelessWidget {
                   return Container();
                 },
               ),
-                SizedBox(height: 20),
                 // Bottom half
+                VisitorModelDetailsDisplay(visitorModel: _visitorModel),
                 PageControls()
               ],
             ),
