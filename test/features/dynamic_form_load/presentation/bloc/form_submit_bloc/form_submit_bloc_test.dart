@@ -10,6 +10,7 @@ import 'package:mockito/mockito.dart';
 
 class MockSignInVisitor extends Mock implements SignInVisitor {}
 
+// ignore: must_be_immutable
 class MockVisitModel extends Mock implements VisitModel {}
 
 void main() {
