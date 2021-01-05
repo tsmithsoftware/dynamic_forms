@@ -1,5 +1,4 @@
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/checks_page_model.dart';
-import 'package:dynamic_forms/features/dynamic_form_load/data/models/visitor_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/presentation/pages/submit_page.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/presentation/widgets/visitor_model_details_display.dart';
 import 'package:flutter/cupertino.dart';

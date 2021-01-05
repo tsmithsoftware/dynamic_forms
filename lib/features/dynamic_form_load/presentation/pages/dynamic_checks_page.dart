@@ -1,5 +1,4 @@
 import 'package:dynamic_forms/base_injection_container.dart';
-import 'package:dynamic_forms/features/dynamic_form_load/data/models/visitor_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/presentation/bloc/dynamic_forms_bloc/bloc.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/presentation/widgets/submit_controls_widget.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/presentation/widgets/visitor_model_details_display.dart';
@@ -8,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// ignore: must_be_immutable
 class DynamicChecksPage extends StatelessWidget {
   VisitorDisplayModel _visitorModel = VisitorDisplayModel();
 

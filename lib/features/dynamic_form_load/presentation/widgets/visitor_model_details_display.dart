@@ -1,7 +1,7 @@
-import 'package:dynamic_forms/features/dynamic_form_load/data/models/visitor_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class VisitorModelDetailsDisplay extends StatefulWidget {
   VisitorDisplayModel visitorModel;
 
