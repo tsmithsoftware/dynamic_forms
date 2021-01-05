@@ -11,12 +11,12 @@ class SignInVisitorResponseModel extends Equatable {
 
   /// This is called when response from api is successful
   factory SignInVisitorResponseModel.fromJson(Map<String, dynamic> json) {
-    if (json['visit'] != null) {
-      var visit = json['visit'];
+    if (json != null) {
       return SignInVisitorResponseModel(
-          visitId: visit['visitId'],
-          createdDateTime: DateTime.parse(visit['createdDateTime']),
-          statusEnum: SignInOutVisitorStatusEnum.SUCCESS);
+          visitId: json['visitId'],
+          createdDateTime: DateTime.parse(json['createdDateTime']),
+          statusEnum: SignInOutVisitorStatusEnum.SUCCESS
+      );
     }
     throw ServerException();
   }

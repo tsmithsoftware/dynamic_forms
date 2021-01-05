@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dynamic_forms/common/error/exception.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/checks_page_model.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/data/models/sign_in_visitor_response_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/visit_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +11,7 @@ import 'package:http/http.dart' as http;
 abstract class ChecksPageRemoteDataSource {
   Future<ChecksPageModel> getChecksPage(int countryNumber);
 
-  Future<bool> signInVisitor(VisitModel visit);
+  Future<SignInVisitorResponseModel> signInVisitor(VisitModel visit);
 }
 
 class ChecksPageRemoteDataSourceImpl implements ChecksPageRemoteDataSource {
@@ -35,7 +36,17 @@ class ChecksPageRemoteDataSourceImpl implements ChecksPageRemoteDataSource {
   }
 
   @override
-  Future<bool> signInVisitor(VisitModel visit) {
-    return Future.value(false);
+  Future<SignInVisitorResponseModel> signInVisitor(VisitModel visit) async {
+    final response = await client.post('http://10.0.2.2:4000/visits', headers: {
+      HttpHeaders.contentTypeHeader: ContentType.json.toString()
+    }).timeout(Duration(seconds: 5), onTimeout: () {
+      throw ServerException();
+    });
+
+    if (response.statusCode == 200) {
+      return SignInVisitorResponseModel.fromJson(json.decode(response.body));
+    } else {
+      throw ServerException();
+    }
   }
 }

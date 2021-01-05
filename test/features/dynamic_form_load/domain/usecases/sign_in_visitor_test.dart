@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../../common/shared_mocks.dart';
+import '../../data/repositories/checks_page_repository_imple_test.dart';
 
 
 void main() {
@@ -14,6 +15,7 @@ void main() {
   SignInVisitorParams params;
   VisitModel visitModel;
   MockVisitorModel mockVisitorModel;
+  MockSignInVisitorResponseModel mockSignInVisitorResponseModel;
 
   setUp(() {
     mockVisitorModel = new MockVisitorModel();
@@ -21,13 +23,14 @@ void main() {
     mockChecksPageRepository = MockChecksPageRepository();
     usecase = SignInVisitor(mockChecksPageRepository);
     params = SignInVisitorParams(visitModel);
+    mockSignInVisitorResponseModel = MockSignInVisitorResponseModel();
   });
 
   group('Sign In Visitor usecase', () {
     test('should make a call to ChecksPageRepository signInVisitor method',
         () async {
       when(mockChecksPageRepository.signInVisitor(any))
-          .thenAnswer((_) async => Right(true));
+          .thenAnswer((_) async => Right(mockSignInVisitorResponseModel));
       await usecase(params);
       verify(mockChecksPageRepository.signInVisitor(params.visit));
     });

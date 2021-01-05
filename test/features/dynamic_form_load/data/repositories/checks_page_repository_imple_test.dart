@@ -10,6 +10,7 @@ import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_submi
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_type.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/checks_page_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/segment_model.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/data/models/sign_in_visitor_response_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/visit_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/visitor_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/repositories/checks_page_repository_impl.dart';
@@ -25,11 +26,16 @@ class MockChecksPageLocalDataSource extends Mock
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
+// ignore: must_be_immutable
+class MockSignInVisitorResponseModel extends Mock
+    implements SignInVisitorResponseModel {}
+
 void main() {
   ChecksPageRepositoryImpl repository;
   MockChecksPageRemoteDataSource mockRemoteDataSource;
   MockChecksPageLocalDataSource mockLocalDataSource;
   MockNetworkInfo mockNetworkInfo;
+  MockSignInVisitorResponseModel mockSignInVisitorResponseModel;
 
   final checkOne = CheckModel(
       checkId: 1,
@@ -93,6 +99,7 @@ void main() {
           list: [CheckSubmissionModel(checkId: 1, checkStatus: true)]));
 
   setUp(() {
+    mockSignInVisitorResponseModel = MockSignInVisitorResponseModel();
     mockRemoteDataSource = MockChecksPageRemoteDataSource();
     mockLocalDataSource = MockChecksPageLocalDataSource();
     mockNetworkInfo = MockNetworkInfo();
@@ -215,12 +222,12 @@ void main() {
         () async {
           // arrange
           when(mockRemoteDataSource.signInVisitor(tVisitModel))
-              .thenAnswer((_) async => true);
+              .thenAnswer((_) async => mockSignInVisitorResponseModel);
           // act
           final result = await repository.signInVisitor(tVisitModel);
           // assert
           verify(mockRemoteDataSource.signInVisitor(tVisitModel));
-          expect(result, equals(Right(true)));
+          expect(result, equals(Right(mockSignInVisitorResponseModel)));
         },
       );
 
@@ -229,7 +236,7 @@ void main() {
         () async {
           // arrange
           when(mockRemoteDataSource.signInVisitor(tVisitModel))
-              .thenAnswer((_) async => true);
+              .thenAnswer((_) async => mockSignInVisitorResponseModel);
           // act
           await repository.signInVisitor(tVisitModel);
           // assert

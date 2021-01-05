@@ -8,6 +8,8 @@ import 'package:dynamic_forms/features/dynamic_form_load/presentation/bloc/form_
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../../data/repositories/checks_page_repository_imple_test.dart';
+
 class MockSignInVisitor extends Mock implements SignInVisitor {}
 
 // ignore: must_be_immutable
@@ -17,8 +19,10 @@ void main() {
   FormSubmitBloc bloc;
   MockSignInVisitor mockSignInVisitor;
   MockVisitModel mockVisitModel;
+  MockSignInVisitorResponseModel mockSignInVisitorResponseModel;
 
   setUp(() {
+    mockSignInVisitorResponseModel = MockSignInVisitorResponseModel();
     mockSignInVisitor = MockSignInVisitor();
     bloc = FormSubmitBloc(mockSignInVisitor);
   });
@@ -33,7 +37,7 @@ void main() {
       'should get data from the concrete use case',
       () async {
         // arrange
-        when(mockSignInVisitor(any)).thenAnswer((_) async => Right(true));
+        when(mockSignInVisitor(any)).thenAnswer((_) async => Right(mockSignInVisitorResponseModel));
         // act
         bloc.add(SubmitVisitorSigninEvent(mockVisitModel));
         await untilCalled(mockSignInVisitor(any));
@@ -46,7 +50,7 @@ void main() {
       'should emit [Loading, Loaded] when data is submitted successfully',
       () async {
         // arrange
-        when(mockSignInVisitor(any)).thenAnswer((_) async => Right(true));
+        when(mockSignInVisitor(any)).thenAnswer((_) async => Right(mockSignInVisitorResponseModel));
         // assert later
         final expected = [
           FormSubmitLoading(),
