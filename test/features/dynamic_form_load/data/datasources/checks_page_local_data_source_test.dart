@@ -1,13 +1,8 @@
 import 'dart:convert';
 
-import 'package:dynamic_forms/common/constants.dart';
 import 'package:dynamic_forms/common/error/exception.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/datasources/checks_page_local_data_source.dart';
-import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_submission_model.dart';
-import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_submission_model_list.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/checks_page_model.dart';
-import 'package:dynamic_forms/features/dynamic_form_load/data/models/visit_model.dart';
-import 'package:dynamic_forms/features/dynamic_form_load/data/models/visitor_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,11 +15,6 @@ class MockSharedPreferences extends Mock implements SharedPreferences {}
 void main() {
   ChecksPageLocalDataSourceImpl dataSource;
   MockSharedPreferences mockSharedPreferences;
-  VisitorModel tVisitor = VisitorModel(visitorName: "Bob", visitorCompany: "BP");
-  CheckSubmissionModelList checks = CheckSubmissionModelList(list: [
-    CheckSubmissionModel(checkId: 1, checkStatus: true)
-  ]);
-  VisitModel tVisitModel = VisitModel(visitor: tVisitor, siteId: 1, checks: checks);
 
   setUp(() {
     mockSharedPreferences = MockSharedPreferences();
