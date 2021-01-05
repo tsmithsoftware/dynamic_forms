@@ -1,5 +1,5 @@
 import 'package:dynamic_forms/base_injection_container.dart';
-import 'package:dynamic_forms/features/dynamic_form_load/presentation/bloc/bloc.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/presentation/bloc/dynamic_forms_bloc/bloc.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/presentation/widgets/submit_controls_widget.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/presentation/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';

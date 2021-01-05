@@ -8,7 +8,7 @@ const express = require('express');
 const { Client } = require('pg');
 
 // setup
-var connectionString = process.env.DATABASE_URL; //"postgres://user:example@192.168.0.15:5432/db";
+var connectionString = "postgres://user:example@192.168.0.15:5432/db"; //process.env.DATABASE_URL;
 console.log('database url from env is: ', connectionString)
 // set timezone
 process.env.TZ = 'Europe/London';
@@ -130,7 +130,14 @@ visit body will be in form:
 		}
 	]
 }
-The API call will create a visitor, a pass, a visit and associate the checks with the visit
+The API call will create a visitor, a pass, a visit and associate the checks with the visit.
+Response body will be in form:
+{
+  "visit": {
+    "visitId": 1,
+    "createdDateTime": "2020-05-30 00:00:00.000"
+  }
+}
 **/
 app.post('/visits', async (req, res) => {
 	let requestBody = req.body;
@@ -244,7 +251,11 @@ app.post('/visits', async (req, res) => {
 											console.log (err);
 											res.status(500).send(err);
 										} else {
-											res.status(200).send();
+											const resultObject = {
+												"visitId": visitId,
+												"createdDateTime": new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') + '.000'
+											};
+											res.status(200).send(resultObject);
 										}
 									});
 								} 

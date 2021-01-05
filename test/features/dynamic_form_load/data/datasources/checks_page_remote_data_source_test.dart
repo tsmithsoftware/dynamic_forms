@@ -1,15 +1,18 @@
-
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:dynamic_forms/common/error/exception.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/datasources/checks_page_remote_data_source.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_submission_model.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_submission_model_list.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/checks_page_model.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/data/models/visit_model.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/data/models/visitor_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
-import 'package:mockito/mockito.dart';
 import 'package:matcher/matcher.dart' as matcher;
+import 'package:mockito/mockito.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -70,7 +73,7 @@ void main() {
 
     test(
       'should throw a ServerException when the response code is 404 or other',
-          () async {
+      () async {
         // arrange
         setUpMockHttpClientFailure404();
         // act
@@ -79,6 +82,33 @@ void main() {
         expect(() => call(tNumber), throwsA(matcher.isA<ServerException>()));
       },
     );
+  });
 
+  group('signInVisitor', () {
+    test(
+      'should perform a POST request on a URL with application/json header',
+      () async {
+        //arrange
+        when(mockHttpClient.post(any,
+                body: anyNamed('body'), headers: anyNamed('headers')))
+            .thenAnswer(
+          (_) async => http.Response(
+              fixture('sign_in_visitor_response_success.json'), 200),
+        );
+        // act
+        dataSource.signInVisitor(VisitModel(
+            checks: CheckSubmissionModelList(
+                list: [CheckSubmissionModel(checkId: 1, checkStatus: true)]),
+            siteId: 1,
+            visitor: VisitorModel(
+                visitorCompany: "The British Government",
+                visitorName: "All The Bonds")));
+        // assert
+        verify(mockHttpClient.post(
+          'http://10.0.2.2:4000/visits',
+          headers: {HttpHeaders.contentTypeHeader: ContentType.json.toString()},
+        ));
+      },
+    );
   });
 }

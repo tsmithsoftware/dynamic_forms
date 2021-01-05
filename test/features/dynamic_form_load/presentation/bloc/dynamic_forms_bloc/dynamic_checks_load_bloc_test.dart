@@ -5,9 +5,7 @@ import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_model
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/checks_page_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/data/models/segment_model.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/usecases/get_checks_page.dart';
-import 'package:dynamic_forms/features/dynamic_form_load/presentation/bloc/dynamic_checks_load_bloc.dart';
-import 'package:dynamic_forms/features/dynamic_form_load/presentation/bloc/dynamic_checks_load_event.dart';
-import 'package:dynamic_forms/features/dynamic_form_load/presentation/bloc/dynamic_checks_load_state.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/presentation/bloc/dynamic_forms_bloc/bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
