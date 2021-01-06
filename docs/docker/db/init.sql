@@ -26,7 +26,7 @@ INSERT INTO companies(companyname, whenLoadedId) VALUES ('McDonals', 1),('Banter
 
 CREATE TABLE visitors(
     visitorId SERIAL PRIMARY KEY NOT NULL,
-    name VARCHAR(50) NOT NULL,
+    visitorName VARCHAR(50) NOT NULL,
     companyId INT NOT NULL,
   	FOREIGN KEY (companyId)
         REFERENCES companies(companyId)
@@ -58,7 +58,7 @@ CREATE TABLE vehicles(
 
 CREATE TABLE inductionChecksPage(
           checksPageId SERIAL PRIMARY KEY NOT NULL,
-		  countryId INT,
+		  countryId INT NOT NULL,
     FOREIGN KEY (countryId)
         REFERENCES countries(countryId)
         ON UPDATE CASCADE
@@ -68,7 +68,7 @@ CREATE TABLE inductionChecksPage(
 CREATE TABLE segments(
           segmentId SERIAL PRIMARY KEY NOT NULL,
           segmentTitle VARCHAR(255),
-		  checksPageId INT,
+		  checksPageId INT NOT NULL,
 			FOREIGN KEY (checksPageId)
 			REFERENCES inductionChecksPage(checksPageId)
 			ON UPDATE CASCADE
@@ -94,6 +94,46 @@ CREATE TABLE checks(
 ALTER TABLE checks
 ALTER COLUMN checksRequired
 SET DEFAULT FALSE;
+
+CREATE TABLE passes(
+	passId SERIAL PRIMARY KEY NOT NULL,
+	visitorId INT NOT NULL,
+    FOREIGN KEY (visitorId)
+        REFERENCES visitors(visitorId)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    createdDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lastUpdatedDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- visits table
+CREATE TABLE visits(
+	visitId SERIAL PRIMARY KEY NOT NULL,
+	visitorId INT NOT NULL,
+		FOREIGN KEY (visitorId)
+		REFERENCES visitors(visitorId),
+	passId INT NOT NULL,
+		FOREIGN KEY (passId)
+        REFERENCES passes(passId),
+	siteId INT NOT NULL,
+		FOREIGN KEY (siteId)
+		REFERENCES sites(id),
+	createdDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lastUpdatedDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- associate checks and visits
+CREATE TABLE signInChecks(
+	signInCheckId SERIAL PRIMARY KEY NOT NULL,
+	visitId INT NOT NULL,
+		FOREIGN KEY (visitId)
+		REFERENCES visits(visitId),
+	checksId INT NOT NULL,
+		FOREIGN KEY (checksId)
+		REFERENCES checks(checksId),
+	status BOOLEAN,
+	lastUpdatedDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 -- insert sample data
 -- countries
@@ -446,12 +486,55 @@ INSERT INTO checks(checksText, checksSubText, checksType, checksRequired, imageL
 	9
   ),
     (
-  	'',
+  	'Additional Work Area Controls',
   	'',
   	'string',
   	false,
   	'',
 	9
   )
-  
   ;
+  
+insert into visitors (visitorName,companyId) values ('bob', 1);
+insert into passes (visitorId) values (1);
+insert into visits(visitorId, passId, siteId) values (1,1,1);
+insert into signInChecks (visitId, checksId, status) values (1, 1, TRUE);
+insert into signInChecks (visitId, checksId, status) values (1, 2, FALSE);
+insert into signInChecks (visitId, checksId, status) values (1, 3, FALSE);
+
+insert into visitors (visitorName,companyId) values ('john', 1);
+insert into passes (visitorId) values (2);
+insert into visits(visitorId, passId, siteId) values (2,2,1);
+insert into signInChecks (visitId, checksId, status) values (2, 1, FALSE);
+insert into signInChecks (visitId, checksId, status) values (2, 4, TRUE);
+insert into signInChecks (visitId, checksId, status) values (2, 5, FALSE);
+
+-- select all checks for a visit
+/**
+select visits.visitid, visitors.visitorname, sites.siteName, visits.createdDateTime, checks.checksText, signInChecks.status from
+visitors inner join passes on visitors.visitorId = passes.visitorId
+inner join visits on passes.passId = visits.passId
+inner join sites on visits.siteId = sites.id
+inner join signInChecks on visits.visitId = signInChecks.visitId
+inner join checks on checks.checksId = signInChecks.checksId;
+**/
+
+-- return how many checks were true/false per visit
+/**
+select visits.visitid, signInChecks.status, count(signInChecks.status)
+from visits
+inner join signInChecks on visits.visitId = signInChecks.visitId
+where signInChecks.status = false
+group by visits.visitid, signInChecks.status
+;
+
+-- select count of how many checks were false or true per visit
+select visits.visitid, visitors.visitorName, sites.siteName, signInChecks.status, count(signInChecks.status) from
+visitors inner join passes on visitors.visitorId = passes.visitorId
+inner join visits on passes.passId = visits.passId
+inner join sites on visits.siteId = sites.id
+inner join signInChecks on visits.visitId = signInChecks.visitId
+group by visits.visitid, signInChecks.status, visitors.visitorName, sites.siteName
+order by visitid asc
+;
+**/

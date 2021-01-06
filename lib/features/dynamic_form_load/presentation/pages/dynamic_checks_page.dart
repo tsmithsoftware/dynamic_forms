@@ -1,20 +1,24 @@
 import 'package:dynamic_forms/base_injection_container.dart';
-import 'package:dynamic_forms/features/dynamic_form_load/presentation/bloc/bloc.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/presentation/bloc/dynamic_forms_bloc/bloc.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/presentation/widgets/submit_controls_widget.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/presentation/widgets/visitor_model_details_display.dart';
+import 'package:dynamic_forms/features/dynamic_form_load/presentation/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dynamic_forms/features/dynamic_form_load/presentation/widgets/widgets.dart';
 
+// ignore: must_be_immutable
 class DynamicChecksPage extends StatelessWidget {
+  VisitorDisplayModel _visitorModel = VisitorDisplayModel();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Dynamic Checks'),
       ),
-      body: SingleChildScrollView(child: buildBody(context))
-    );
+        body:
+            SafeArea(child: SingleChildScrollView(child: buildBody(context))));
   }
 
   BlocProvider<DynamicChecksLoadBloc> buildBody(BuildContext context) {
@@ -37,7 +41,13 @@ class DynamicChecksPage extends StatelessWidget {
                   } else if (state is Loading) {
                     return LoadingWidget();
                   } else if (state is Loaded) {
-                    return SingleChildScrollView(child: DynamicChecksPageDisplay(checksPageModel: state.checksPage));
+                    return SingleChildScrollView(child: Column(
+                      children: [
+                        DynamicChecksPageDisplay(
+                            checksPageModel: state.checksPage),
+                        SubmitControls(checksPage: state.checksPage, visitorModel: _visitorModel)
+                      ],
+                    ));
                   }
                   else if (state is Error) {
                     return MessageDisplay (
@@ -47,9 +57,8 @@ class DynamicChecksPage extends StatelessWidget {
                   return Container();
                 },
               ),
-                SizedBox(height: 20),
                 // Bottom half
-                SubmitControls(),
+                VisitorModelDetailsDisplay(visitorModel: _visitorModel),
                 PageControls()
               ],
             ),

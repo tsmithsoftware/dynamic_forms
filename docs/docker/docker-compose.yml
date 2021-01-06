@@ -36,15 +36,15 @@ services:
     links:
       - "db:pgsql-server"
     networks:
-        backend:
-          aliases:
-            - pg_admin
-            
+      backend:
+        aliases:
+          - pg_admin
+
   api:
     build: ./api
     command: >
       bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; env TZ="Europe/London" npm start server.js'
-    ports: 
+    ports:
       - "4000:4000"
     depends_on:
       - db
@@ -54,10 +54,10 @@ services:
     links:
       - db
     networks:
-        backend:
-            aliases:
-              - api
-      
+      backend:
+       aliases:
+         - api
+
 networks:
   backend:
-   driver: "bridge"
+    driver: "bridge"

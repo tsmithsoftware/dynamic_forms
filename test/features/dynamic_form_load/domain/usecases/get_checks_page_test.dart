@@ -3,12 +3,12 @@ import 'package:dynamic_forms/features/dynamic_form_load/data/models/check_type.
 import 'package:dynamic_forms/features/dynamic_form_load/domain/entities/check_entity.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/entities/checks_page_entity.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/entities/segment_entity.dart';
-import 'package:dynamic_forms/features/dynamic_form_load/domain/repositories/checks_page_repository.dart';
 import 'package:dynamic_forms/features/dynamic_form_load/domain/usecases/get_checks_page.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-class MockChecksPageRepository extends Mock implements ChecksPageRepository {}
+import '../../../../common/shared_mocks.dart';
+
 
 void main() {
   GetChecksPage usecase;
